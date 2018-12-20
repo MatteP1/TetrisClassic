@@ -1,7 +1,8 @@
 import java.util.*;
 
 public class Game {
-    private static Game game = new Game();
+    //private static Game game = new Game();
+    private Game game;
     private int timePassed;
     private int score;
     private Timer time;
@@ -10,6 +11,7 @@ public class Game {
 
 
     public static void main(String[] args) {
+        Game game = new Game();
         game.startGame();
     }
 
@@ -17,8 +19,10 @@ public class Game {
         timePassed = 0;
         score = 0;
         time = new Timer();
-        playfield = new PlayingField(game);
+        playfield = new PlayingField(this);
         random = new Random();
+        this.game = this;
+        GUI.createGameGUI(game, playfield);
     }
 
     /**
@@ -26,7 +30,6 @@ public class Game {
      * 3 seconds pass between each tetrimino fall.
      */
     private void startGame(){
-        GUI.createGameGUI(game, playfield);
         playfield.nextPiece();
         time.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -44,7 +47,7 @@ public class Game {
     /**
      * @return The game object.
      */
-    public static Game getGame(){
+    public Game getGame(){
         return game;
     }
 

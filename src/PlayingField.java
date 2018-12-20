@@ -1,7 +1,6 @@
 import java.util.*;
 import java.awt.Color;
 public class PlayingField {
-    private PlayingField playfield;
     private Tetrimino currentTetrimino;
     private boolean tetriminoHasFallen;
     private GridElement[][] Grid;
@@ -66,7 +65,6 @@ public class PlayingField {
                 System.out.println("Piece fallen");
                 System.out.println("Next piece is: " + currentTetrimino.toString());
                 System.out.println("Currently occupied slots:");
-
                 for(GridElement[] G : Grid){
                     for(GridElement g : G){
                         if(g.isOccupied()){
@@ -75,9 +73,10 @@ public class PlayingField {
                     }
                 }
                 System.out.println();
+
             } else {
                 game.stopGame();
-                System.out.println("Game lost!");
+                System.out.println("Game Over!");
             }
 
         } else {
@@ -154,13 +153,6 @@ public class PlayingField {
         }
         int calculatedScore = rows.size(); //Change later to include combos.
         game.increaseScore(calculatedScore);
-    }
-
-    /**
-     * @return The playingField object.
-     */
-    public PlayingField getInstance() {
-        return playfield;
     }
 
     public Tetrimino getCurrentTetrimino(){

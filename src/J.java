@@ -5,10 +5,10 @@ public class J extends Tetrimino{
 
     public J(){
         super(Color.BLUE);
-        pieces.add(new GridElement(3,22, Color.BLUE, true));
-        pieces.add(new GridElement(3,21, Color.BLUE, true));
-        pieces.add(new GridElement(4,21, Color.BLUE, true));
-        pieces.add(new GridElement(5,21, Color.BLUE, true));
+        pieces.add(new GridElement(22,3, Color.BLUE, true));
+        pieces.add(new GridElement(21,3, Color.BLUE, true));
+        pieces.add(new GridElement(21,4, Color.BLUE, true));
+        pieces.add(new GridElement(21,5, Color.BLUE, true));
     }
 
     @Override

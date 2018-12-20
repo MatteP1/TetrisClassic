@@ -14,8 +14,8 @@ public class GUI implements KeyListener {
     public GUI(Game game, PlayingField playfield) {
         this.game = game;
         this.playfield = playfield;
-        createGUI();
         Grid = playfield.getGrid();
+        createGUI();
     }
 
     private void createGUI(){
@@ -31,10 +31,10 @@ public class GUI implements KeyListener {
     }
 
     private void createContent(){
-
         //GAME AREA
         gameArea = setupGameArea();
         gameArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
         contentPane.add(gameArea, BorderLayout.CENTER);
         addGameInputFunctionality();
 
@@ -80,12 +80,12 @@ public class GUI implements KeyListener {
         //NEEDS IMPLEMENTING
         gameArea = new JPanel();
         gameArea.setLayout(new GridLayout(10,21));
-        for (int i = 21; i >= 0; i++) {
+        for (int i = 0; i <= 21; i++) {
             for(GridElement g : Grid[i]){
                 JPanel box = new JPanel();
                 box.setBackground(g.getColor());
                 box.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                gameArea.add(box);
+                gameArea.add(box, g.x() ,g.y());
             }
         }
 
