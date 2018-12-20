@@ -18,8 +18,8 @@ public class PlayingField {
     private void initializeGrid(){
         Grid = new GridElement[39][9];
 
-        for (int i = 0; i < 40; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < 39; i++) {
+            for (int j = 0; j < 9; j++) {
                 Grid[i][j] = new GridElement();
             }
         }

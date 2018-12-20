@@ -25,14 +25,15 @@ public class Game {
      * 3 seconds pass between each tetrimino fall.
      */
     private void startGame(){
-        while(timePassed<50){
-            time.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    step();
-                }
-            },0, 1000*3);
-        }
+        GUI.createGameGUI();
+//        while(timePassed<50){
+//            time.scheduleAtFixedRate(new TimerTask() {
+//                @Override
+//                public void run() {
+//                    step();
+//                }
+//            },0, 1000*3);
+//        }
     }
 
     /**
