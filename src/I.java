@@ -13,7 +13,20 @@ public class I extends Tetrimino{
     }
     @Override
     public void rotateClockwise() {
+        switch (orientation) {
+            case 0 : {
 
+            }
+            case 1 : {
+
+            }
+            case 2 : {
+
+            }
+            case 3 : {
+
+            }
+        }
     }
 
     @Override

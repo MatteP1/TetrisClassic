@@ -17,15 +17,22 @@ public class Game {
         timePassed = 0;
         score = 0;
         time = new Timer();
+        playfield = PlayingField.getInstance();
     }
 
     /**
-     * Initializes the game.
+     * Initializes the game time.
+     * 3 seconds pass between each tetrimino fall.
      */
     private void startGame(){
-        playfield = PlayingField.getInstance();
-        playfield.nextPiece();
-
+        while(timePassed<50){
+            time.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    step();
+                }
+            },0, 1000*3);
+        }
     }
 
     /**

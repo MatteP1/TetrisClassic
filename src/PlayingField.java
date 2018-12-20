@@ -70,6 +70,7 @@ public class PlayingField {
         ArrayList<IntPair> bottomPieces = currentTetrimino.getBottomPieces();
         for(IntPair i : bottomPieces){
             if(Grid[i.y()-1][i.x()].isOccupied()){
+                tetriminoHasFallen = true;
                 return true;
             }
         }
