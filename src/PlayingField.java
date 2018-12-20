@@ -50,13 +50,30 @@ public class PlayingField {
      * Makes the current tetrimino fall down 1 row.
      */
     public void fall(){
+        if(calculateEnd()){
+            // After the fall, check if any rows have been filled out.
+            ArrayList<Integer> fullRows = checkForFullRows();
+            if(!fullRows.isEmpty()){
+                removeFullRows(fullRows);
+            }
 
+            nextPiece();
 
-        // After the fall, check if any rows have been filled out.
-        ArrayList<Integer> fullRows = checkForFullRows();
-        if(!fullRows.isEmpty()){
-            removeFullRows(fullRows);
+        } else {
+            //move down the Tetrimino
+            currentTetrimino.moveDown();
         }
+    }
+
+    private boolean calculateEnd(){
+        currentTetrimino.calculateBottomPieces();
+        ArrayList<IntPair> bottomPieces = currentTetrimino.getBottomPieces();
+        for(IntPair i : bottomPieces){
+            if(Grid[i.y()-1][i.x()].isOccupied()){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -90,7 +107,6 @@ public class PlayingField {
                 Grid[j] = Grid[j+1];
             }
         }
-
         int calculatedScore = rows.size(); //Change later to include combos.
         game.increaseScore(calculatedScore);
     }
