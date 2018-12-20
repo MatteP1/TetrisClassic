@@ -1,9 +1,11 @@
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import javax.swing.*;
 
 public class GUI {
     private JFrame mainFrame;
     private Container contentPane;
+    private JPanel gameArea;
 
     public GUI(){
         createGUI();
@@ -24,9 +26,10 @@ public class GUI {
     private void createContent(){
 
         //GAME AREA
-        JPanel gameArea = setupGameArea();
+        gameArea = setupGameArea();
         gameArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         contentPane.add(gameArea, BorderLayout.CENTER);
+        addGameInputFunctionality();
 
 
         //OPTIONS AREA
@@ -59,6 +62,10 @@ public class GUI {
         settings.add(exitButton);
 
         contentPane.add(optionsArea, BorderLayout.SOUTH);
+
+    }
+
+    private void addGameInputFunctionality(){
 
     }
 
