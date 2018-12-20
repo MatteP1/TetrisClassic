@@ -4,10 +4,11 @@ public class O extends  Tetrimino{
 
     public O(){
         super(Color.YELLOW);
-        pieces.add(new IntPair(4,21));
-        pieces.add(new IntPair(4,22));
-        pieces.add(new IntPair(5,21));
-        pieces.add(new IntPair(5,22));
+        //CHANGE ALL Y-X IN ALL PIECES CLASSES
+        pieces.add(new GridElement(4,21, Color.YELLOW, true));
+        pieces.add(new GridElement(4,22, Color.YELLOW, true));
+        pieces.add(new GridElement(5,21, Color.YELLOW, true));
+        pieces.add(new GridElement(5,22, Color.YELLOW, true));
     }
     
     @Override

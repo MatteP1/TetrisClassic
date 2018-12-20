@@ -4,10 +4,10 @@ public class Z extends Tetrimino{
 
     public Z(){
         super(Color.RED);
-        pieces.add(new IntPair(3,22));
-        pieces.add(new IntPair(4,22));
-        pieces.add(new IntPair(4,21));
-        pieces.add(new IntPair(5,21));
+        pieces.add(new GridElement(3,22, Color.RED, true));
+        pieces.add(new GridElement(4,22, Color.RED, true));
+        pieces.add(new GridElement(4,21, Color.RED, true));
+        pieces.add(new GridElement(5,21, Color.RED, true));
     }
 
     @Override

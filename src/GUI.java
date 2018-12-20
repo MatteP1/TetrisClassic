@@ -1,14 +1,21 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.*;
 
-public class GUI {
+public class GUI implements KeyListener {
     private JFrame mainFrame;
     private Container contentPane;
     private JPanel gameArea;
+    private PlayingField playfield;
+    private GridElement[][] Grid;
+    private Game game;
 
-    public GUI(){
+    public GUI(Game game, PlayingField playfield) {
+        this.game = game;
+        this.playfield = playfield;
         createGUI();
+        Grid = playfield.getGrid();
     }
 
     private void createGUI(){
@@ -71,7 +78,18 @@ public class GUI {
 
     private JPanel setupGameArea(){
         //NEEDS IMPLEMENTING
-        return new JPanel();
+        gameArea = new JPanel();
+        gameArea.setLayout(new GridLayout(10,21));
+        for (int i = 21; i >= 0; i++) {
+            for(GridElement g : Grid[i]){
+                JPanel box = new JPanel();
+                box.setBackground(g.getColor());
+                box.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                gameArea.add(box);
+            }
+        }
+
+        return gameArea;
     }
 
     private void createFile(){
@@ -84,9 +102,37 @@ public class GUI {
         menuBar.add(test);
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+        //Won't be implemented
+    }
 
-    public static void createGameGUI(){
-        new GUI();
+    @Override
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()){
+
+            case KeyEvent.VK_UP : {
+                //ROTATE
+            }
+            case KeyEvent.VK_DOWN : {
+                //ROTATE
+            }
+            case KeyEvent.VK_LEFT : {
+                playfield.getCurrentTetrimino().moveLeft();
+            }
+            case KeyEvent.VK_RIGHT : {
+                playfield.getCurrentTetrimino().moveRight();
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        //Won't be implemented
+    }
+
+    public static void createGameGUI(Game game, PlayingField playfield){
+        new GUI(game, playfield);
     }
 
 }

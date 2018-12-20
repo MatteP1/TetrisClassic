@@ -4,10 +4,10 @@ import java.util.ArrayList;
 public class I extends Tetrimino{
     public I(){
         super(Color.CYAN);
-        pieces.add(new IntPair(3,21));
-        pieces.add(new IntPair(4,21));
-        pieces.add(new IntPair(5,21));
-        pieces.add(new IntPair(6,21));
+        pieces.add(new GridElement(21,3, Color.CYAN, true));
+        pieces.add(new GridElement(21,4, Color.CYAN, true));
+        pieces.add(new GridElement(21,5, Color.CYAN, true));
+        pieces.add(new GridElement(21,6, Color.CYAN, true));
 
 
     }
@@ -36,7 +36,7 @@ public class I extends Tetrimino{
 
     @Override
     public void calculateBottomPieces() {
-        ArrayList<IntPair> newBottom = new ArrayList<>();
+        ArrayList<GridElement> newBottom = new ArrayList<>();
         switch (orientation){
             case 0 : case 2 : {
                 newBottom = pieces;
@@ -45,11 +45,15 @@ public class I extends Tetrimino{
             }
             case 1 : case 3 : {
                 int yValue = Math.min(Math.min(pieces.get(0).y(),pieces.get(1).y()), Math.min(pieces.get(2).y(),pieces.get(3).y()));
-                newBottom.add(new IntPair(pieces.get(0).x(),yValue));
+                newBottom.add(new GridElement(pieces.get(0).x(),yValue, Color.CYAN, true));
                 break;
             }
 
         }
         bottomPieces = newBottom;
+    }
+
+    public String toString(){
+        return "I-piece";
     }
 }

@@ -17,7 +17,8 @@ public class Game {
         timePassed = 0;
         score = 0;
         time = new Timer();
-        playfield = PlayingField.getInstance();
+        playfield = new PlayingField(game);
+        random = new Random();
     }
 
     /**
@@ -25,15 +26,19 @@ public class Game {
      * 3 seconds pass between each tetrimino fall.
      */
     private void startGame(){
-        GUI.createGameGUI();
-//        while(timePassed<50){
-//            time.scheduleAtFixedRate(new TimerTask() {
-//                @Override
-//                public void run() {
-//                    step();
-//                }
-//            },0, 1000*3);
-//        }
+        GUI.createGameGUI(game, playfield);
+        playfield.nextPiece();
+        time.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                step();
+                System.out.println(timePassed);
+            }
+        }, 0, 1000*1);
+    }
+
+    public void stopGame(){
+        time.cancel();
     }
 
     /**
@@ -47,7 +52,6 @@ public class Game {
      * One ingame timeunit passes.
      */
     public void step(){
-
         timePassed++;
         playfield.fall();
     }
