@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class I extends Tetrimino{
     public I(){
-        super(Color.BLUE);
+        super(Color.CYAN);
         pieces.add(new IntPair(3,21));
         pieces.add(new IntPair(4,21));
         pieces.add(new IntPair(5,21));

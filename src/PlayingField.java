@@ -47,10 +47,10 @@ public class PlayingField {
     }
 
     /**
-     * Makes the current tetrimino fall down 1 row.
+     * Makes the current tetrimino fall down 1 row if there is space for it.
      */
     public void fall(){
-        if(calculateEnd()){
+        if(calculateEnd()){ // Check if there is a spot under, that is occupied by another tetrimino
             // After the fall, check if any rows have been filled out.
             ArrayList<Integer> fullRows = checkForFullRows();
             if(!fullRows.isEmpty()){
