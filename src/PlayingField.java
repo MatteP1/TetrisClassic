@@ -16,10 +16,10 @@ public class PlayingField {
      * Sets up the grid with empty GridElements
      */
     private void initializeGrid(){
-        Grid = new GridElement[39][9];
+        Grid = new GridElement[40][10];
 
-        for (int i = 0; i < 39; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i <= 39; i++) {
+            for (int j = 0; j <= 9; j++) {
                 Grid[i][j] = new GridElement(i, j, Color.GRAY, false);
             }
         }
@@ -82,6 +82,7 @@ public class PlayingField {
         } else {
             //move down the Tetrimino
             currentTetrimino.moveDown();
+
         }
     }
 
@@ -128,7 +129,7 @@ public class PlayingField {
         for (int i = 0; i < 22; i++) {
             int amountOccupied = 0;
 
-            for (int j = 0; j < 9; j++) {
+            for (int j = 0; j <= 9; j++) {
                 if(Grid[i][j].isOccupied()){
                     amountOccupied++;
                 }

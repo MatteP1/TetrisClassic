@@ -77,18 +77,13 @@ public class GUI implements KeyListener {
     }
 
     private JPanel setupGameArea(){
-        //NEEDS IMPLEMENTING
         gameArea = new JPanel();
-        gameArea.setLayout(new GridLayout(10,21));
-        for (int i = 0; i <= 21; i++) {
+        gameArea.setLayout(new GridLayout(20,10));
+        for (int i = 0; i <= 19; i++) {
             for(GridElement g : Grid[i]){
-                JPanel box = new JPanel();
-                box.setBackground(g.getColor());
-                box.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                gameArea.add(box, g.x() ,g.y());
+                gameArea.add(g);
             }
         }
-
         return gameArea;
     }
 

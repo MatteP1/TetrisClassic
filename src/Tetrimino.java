@@ -49,6 +49,7 @@ public abstract class Tetrimino {
     public void moveDown(){
         for(GridElement i : pieces){
             i.setY(i.y()-1);
+
         }
     }
 

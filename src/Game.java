@@ -57,6 +57,7 @@ public class Game {
     public void step(){
         timePassed++;
         playfield.fall();
+
     }
 
     public void increaseScore(int amount){

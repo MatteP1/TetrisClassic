@@ -1,9 +1,10 @@
 import java.awt.Color;
+import javax.swing.*;
 
 /**
  * Represents an element in the playingFieldGrid
  */
-public class GridElement {
+public class GridElement extends JPanel{
     private Color color;
     private boolean occupied;
 
@@ -16,6 +17,8 @@ public class GridElement {
         occupied = o;
         this.x = x;
         this.y = y;
+        setBackground(color);
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
     public void repaint(Color c){
