@@ -8,6 +8,8 @@ public class Game {
     private Timer time;
     private Random random;
     private PlayingField playfield;
+    private Tetrimino currentTetrimino;
+    private boolean paused;
 
 
     public static void main(String[] args) {
@@ -15,6 +17,7 @@ public class Game {
         game.startGame();
     }
 
+    // --------------------- GAME CREATION AND TIME ---------------------
     private Game() {
         timePassed = 0;
         score = 0;
@@ -31,17 +34,28 @@ public class Game {
      */
     private void startGame(){
         playfield.nextPiece();
+        startTimer();
+    }
+
+    public void stopGame(){
+        time.cancel();
+        paused = true;
+    }
+
+    public void resumeGame(){
+        time = new Timer();
+        startTimer();
+    }
+
+    public void startTimer(){
+        paused = false;
         time.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 step();
                 System.out.println(timePassed);
             }
-        }, 0, 1000*1);
-    }
-
-    public void stopGame(){
-        time.cancel();
+        }, 500, 1000*1);
     }
 
     /**
@@ -60,12 +74,34 @@ public class Game {
 
     }
 
+    // --------------------- GAME LOGIC ---------------------
+
+
+
+
+    // --------------------- GAME INPUT ---------------------
+
+
+
+
+
+    // --------------------- METAINFO HANDLER ---------------------
     public void increaseScore(int amount){
         score += amount;
     }
 
+    // --------------------- GEETTERS ---------------------
+
     public Random getRandom(){
         return random;
+    }
+
+    public int getTimePassed(){
+        return timePassed;
+    }
+
+    public int getScore(){
+        return score;
     }
 
 }
