@@ -25,75 +25,14 @@ public class PlayingField {
         }
     }
 
-
-    /**
-     * Calculates the next piece to fall down.
-     */
-    public void nextPiece(){
-        int nextPiece = game.getRandom().nextInt(6)+1;
-        Tetrimino nextTetrimino;
-//        switch (nextPiece){
-//            case 1 : nextTetrimino = new I(); break;
-//            case 2 : nextTetrimino = new J(); break;
-//            case 3 : nextTetrimino = new L(); break;
-//            case 4 : nextTetrimino = new O(); break;
-//            case 5 : nextTetrimino = new S(); break;
-//            case 6 : nextTetrimino = new T(); break;
-//            case 7 : nextTetrimino = new Z(); break;
-//
-//            default: nextTetrimino = new I();
-//        }
-        nextTetrimino = new I();
-
-        currentTetrimino = nextTetrimino;
-    }
-
-    /**
-     * Makes the current tetrimino fall down 1 row if there is space for it.
-     */
-    public void fall(){
-        if(calculateEnd()){ // Check if there is a spot under, that is occupied by another tetrimino
-            insertCurrentPieceIntoGrid();
-
-            // After the fall, check if any rows have been filled out.
-            removeFullRows();
-
-            boolean lost = calculateLost();
-
-            if(!lost){
-                nextPiece();
-                System.out.println("Piece fallen");
-                System.out.println("Next piece is: " + currentTetrimino.toString());
-                System.out.println("Currently occupied slots:");
-                for(GridElement[] G : Grid){
-                    for(GridElement g : G){
-                        if(g.isOccupied()){
-                            System.out.print("(" + g.y() +", "+  g.x() + ") ");
-                        }
-                    }
-                }
-                System.out.println();
-
-            } else {
-                game.stopGame();
-                System.out.println("Game Over!");
-            }
-
-        } else {
-            //move down the Tetrimino
-            currentTetrimino.moveDown();
-
-        }
-    }
-
-    private void insertCurrentPieceIntoGrid(){
+    public void insertCurrentPieceIntoGrid(){
         ArrayList<GridElement> pieces = currentTetrimino.getPieces();
         for(GridElement g : pieces){
             Grid[g.y()][g.x()] = g;
         }
     }
 
-    private boolean calculateEnd(){
+    public boolean calculateEnd(){
         currentTetrimino.calculateBottomPieces();
         ArrayList<GridElement> bottomPieces = currentTetrimino.getBottomPieces();
         for(GridElement i : bottomPieces){
@@ -105,7 +44,7 @@ public class PlayingField {
         return false;
     }
 
-    private boolean calculateLost(){
+    public boolean calculateLost(){
         for(GridElement g : Grid[21]){
             if(g.isOccupied()){
                 return true;
@@ -114,7 +53,7 @@ public class PlayingField {
         return false;
     }
 
-    private void removeFullRows(){
+    public void removeFullRows(){
         ArrayList<Integer> fullRows = checkForFullRows();
         if(!fullRows.isEmpty()){
             removeRows(fullRows);
@@ -162,5 +101,9 @@ public class PlayingField {
 
     public GridElement[][] getGrid(){
         return Grid;
+    }
+
+    public void setCurrentTetrimino(Tetrimino t){
+        currentTetrimino = t;
     }
 }

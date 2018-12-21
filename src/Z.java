@@ -2,8 +2,8 @@ import java.awt.*;
 
 public class Z extends Tetrimino{
 
-    public Z(){
-        super(Color.RED);
+    public Z(PlayingField p){
+        super(Color.RED, p);
         pieces.add(new GridElement(3,22, Color.RED, true));
         pieces.add(new GridElement(4,22, Color.RED, true));
         pieces.add(new GridElement(4,21, Color.RED, true));

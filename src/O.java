@@ -2,8 +2,8 @@ import java.awt.*;
 
 public class O extends  Tetrimino{
 
-    public O(){
-        super(Color.YELLOW);
+    public O(PlayingField p){
+        super(Color.YELLOW, p);
         //CHANGE ALL Y-X IN ALL PIECES CLASSES
         pieces.add(new GridElement(4,21, Color.YELLOW, true));
         pieces.add(new GridElement(4,22, Color.YELLOW, true));

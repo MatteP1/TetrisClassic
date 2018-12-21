@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.security.Key;
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 
 public class GUI {
 
@@ -19,6 +21,7 @@ public class GUI {
         this.playfield = playfield;
         Grid = playfield.getGrid();
         createGUI();
+        mainFrame.addKeyListener(game);
     }
 
     private void createGUI(){
@@ -30,7 +33,7 @@ public class GUI {
         contentPane = mainFrame.getContentPane();
         contentPane.setLayout(new BorderLayout());
         createContent();
-
+        mainFrame.setFocusable(true);
         mainFrame.setVisible(true);
     }
 
@@ -93,15 +96,14 @@ public class GUI {
     }
 
     public void pauseResume(){
-        paused = !paused;
+        game.pauseResume();
+        paused = game.isPaused();
         if(paused){
-            game.stopGame();
             pauseResumeButton.setText("Resume");
-
         } else {
-            game.resumeGame();
             pauseResumeButton.setText("Pause");
         }
+        mainFrame.requestFocusInWindow();
     }
 
     private void addGameInputFunctionality(){
@@ -127,12 +129,6 @@ public class GUI {
         JMenuItem testItem = new JMenuItem("Test");
         test.add(testItem);
         menuBar.add(test);
-    }
-
-
-
-    public static void createGameGUI(Game game, PlayingField playfield){
-        new GUI(game, playfield);
     }
 
 }

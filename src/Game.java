@@ -1,6 +1,8 @@
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.*;
 
-public class Game {
+public class Game implements KeyListener {
     //private static Game game = new Game();
     private Game game;
     private int timePassed;
@@ -10,6 +12,7 @@ public class Game {
     private PlayingField playfield;
     private Tetrimino currentTetrimino;
     private boolean paused;
+    private GUI gui;
 
 
     public static void main(String[] args) {
@@ -25,26 +28,36 @@ public class Game {
         playfield = new PlayingField(this);
         random = new Random();
         this.game = this;
-        GUI.createGameGUI(game, playfield);
+        gui = new GUI(game, playfield);
     }
 
     /**
      * Initializes the game time.
-     * 3 seconds pass between each tetrimino fall.
+     * 3 seconds pass between each tetrimino moveDown.
      */
     private void startGame(){
-        playfield.nextPiece();
+        paused = false;
+        nextPiece();
         startTimer();
     }
 
-    public void stopGame(){
+    private void stopGame(){
         time.cancel();
         paused = true;
     }
 
-    public void resumeGame(){
+    private void resumeGame(){
         time = new Timer();
         startTimer();
+        paused = false;
+    }
+
+    public void pauseResume(){
+        if(paused){
+            resumeGame();
+        } else {
+            stopGame();
+        }
     }
 
     public void startTimer(){
@@ -70,20 +83,147 @@ public class Game {
      */
     public void step(){
         timePassed++;
-        playfield.fall();
+        fall();
 
     }
 
     // --------------------- GAME LOGIC ---------------------
 
+    /**
+     * Calculates the next piece to moveDown down.
+     */
+    public void nextPiece(){
+        int nextPiece = game.getRandom().nextInt(6)+1;
+        Tetrimino nextTetrimino;
+//        switch (nextPiece){
+//            case 1 : nextTetrimino = new I(); break;
+//            case 2 : nextTetrimino = new J(); break;
+//            case 3 : nextTetrimino = new L(); break;
+//            case 4 : nextTetrimino = new O(); break;
+//            case 5 : nextTetrimino = new S(); break;
+//            case 6 : nextTetrimino = new T(); break;
+//            case 7 : nextTetrimino = new Z(); break;
+//
+//            default: nextTetrimino = new I();
+//        }
+        nextTetrimino = new I(playfield);
 
+        currentTetrimino = nextTetrimino;
+        playfield.setCurrentTetrimino(currentTetrimino);
+    }
+
+    /**
+     * Makes the current tetrimino moveDown down 1 row if there is space for it.
+     */
+    public void fall(){
+        if(playfield.calculateEnd()){ // Check if there is a spot under, that is occupied by another tetrimino
+            playfield.insertCurrentPieceIntoGrid();
+
+            // After the moveDown, check if any rows have been filled out.
+            playfield.removeFullRows();
+
+            boolean lost = playfield.calculateLost();
+
+            if(!lost){
+                nextPiece();
+                System.out.println("Piece fallen");
+                System.out.println("Next piece is: " + currentTetrimino.toString());
+                System.out.println("Currently occupied slots:");
+                for(GridElement[] G : playfield.getGrid()){
+                    for(GridElement g : G){
+                        if(g.isOccupied()){
+                            System.out.print("(" + g.y() +", "+  g.x() + ") ");
+                        }
+                    }
+                }
+                System.out.println();
+
+            } else {
+                game.stopGame();
+                System.out.println("Game Over!");
+            }
+
+        } else {
+            //move down the Tetrimino
+            currentTetrimino.moveDown();
+
+        }
+    }
+
+    private void moveDown(){
+        currentTetrimino.moveDown();
+    }
+
+    private void moveLeft(){
+        currentTetrimino.moveLeft();
+    }
+
+    private void moveRight(){
+        currentTetrimino.moveRight();
+    }
+
+    private void rotateClockWise(){
+        currentTetrimino.rotateClockwise();
+    }
+
+    private void rotateCounterClockWise(){
+        currentTetrimino.rotateClockwise();
+    }
 
 
     // --------------------- GAME INPUT ---------------------
 
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+        //Won't be implemented
+    }
 
+    @Override
+    public void keyPressed(KeyEvent e) {
 
+        switch(e.getKeyCode()) {
+
+            case KeyEvent.VK_LEFT :
+                if (!paused) {
+                    moveLeft();
+                }
+                break;
+
+            case KeyEvent.VK_RIGHT :
+                if (!paused) {
+                    moveRight();
+                }
+                break;
+
+            case KeyEvent.VK_CONTROL :
+                if(!paused){
+                    moveDown();
+                }
+                break;
+
+            case KeyEvent.VK_UP :
+                if(!paused) {
+                    rotateClockWise();
+                }
+                break;
+
+            case KeyEvent.VK_DOWN :
+                if(!paused) {
+                    rotateCounterClockWise();
+                }
+                break;
+
+            case KeyEvent.VK_ESCAPE :
+                gui.pauseResume();
+                break;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        //Won't be implemented
+    }
 
     // --------------------- METAINFO HANDLER ---------------------
     public void increaseScore(int amount){
@@ -102,6 +242,9 @@ public class Game {
 
     public int getScore(){
         return score;
+    }
+    public boolean isPaused(){
+        return paused;
     }
 
 }

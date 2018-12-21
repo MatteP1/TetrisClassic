@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 public class J extends Tetrimino{
 
-    public J(){
-        super(Color.BLUE);
+    public J(PlayingField p){
+        super(Color.BLUE, p);
         pieces.add(new GridElement(22,3, Color.BLUE, true));
         pieces.add(new GridElement(21,3, Color.BLUE, true));
         pieces.add(new GridElement(21,4, Color.BLUE, true));

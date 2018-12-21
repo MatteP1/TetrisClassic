@@ -2,8 +2,8 @@ import java.awt.*;
 
 public class L extends Tetrimino{
 
-    public L(){
-        super(Color.ORANGE);
+    public L(PlayingField p){
+        super(Color.ORANGE, p);
         pieces.add(new GridElement(3,21, Color.ORANGE, true));
         pieces.add(new GridElement(4,21, Color.ORANGE, true));
         pieces.add(new GridElement(5,21, Color.ORANGE, true));
