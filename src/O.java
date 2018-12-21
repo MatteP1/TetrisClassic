@@ -17,21 +17,22 @@ public class O extends  Tetrimino{
 
     @Override
     protected void rotateClockwiseCase0() {
-
+        //Not gonna implement these
     }
 
     @Override
     protected void rotateClockwiseCase1() {
-
+        //Nothing happens anyways
     }
 
     @Override
     protected void rotateClockwiseCase2() {
-
+        //Lol
     }
 
     @Override
     protected void rotateClockwiseCase3() {
-
+        // The game is actually faster when i don't implement them
+        // so i think it is justified.
     }
 }
