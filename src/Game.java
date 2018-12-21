@@ -67,8 +67,12 @@ public class Game implements KeyListener {
             public void run() {
                 step();
                 System.out.println(timePassed);
+                for(GridElement g : currentTetrimino.getPieces()){
+                    System.out.print("(" + g.y() +", "+  g.x() + ") ");
+                }
+                System.out.println();
             }
-        }, 500, 1000*1);
+        }, 500, 1000*7);
     }
 
     /**
@@ -167,7 +171,7 @@ public class Game implements KeyListener {
     }
 
     private void rotateCounterClockWise(){
-        currentTetrimino.rotateClockwise();
+        currentTetrimino.rotateCounterClockwise();
     }
 
 

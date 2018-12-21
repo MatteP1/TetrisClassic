@@ -28,14 +28,14 @@ public class PlayingField {
     public void insertCurrentPieceIntoGrid(){
         ArrayList<GridElement> pieces = currentTetrimino.getPieces();
         for(GridElement g : pieces){
+            g.makeOccupied();
             Grid[g.y()][g.x()] = g;
         }
     }
 
     public boolean calculateEnd(){
-        currentTetrimino.calculateBottomPieces();
-        ArrayList<GridElement> bottomPieces = currentTetrimino.getBottomPieces();
-        for(GridElement i : bottomPieces){
+        ArrayList<GridElement> pieces = currentTetrimino.getPieces();
+        for(GridElement i : pieces){
             if(i.y() == 0 || Grid[i.y()-1][i.x()].isOccupied()){
                 tetriminoHasFallen = true;
                 return true;

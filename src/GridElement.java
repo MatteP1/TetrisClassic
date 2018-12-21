@@ -48,5 +48,8 @@ public class GridElement extends JPanel{
         this.y = y;
     }
 
+    public void makeOccupied(){
+        occupied = true;
+    }
 
 }
