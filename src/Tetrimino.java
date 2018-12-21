@@ -66,10 +66,10 @@ public abstract class Tetrimino {
 
     public void rotateCounterClockwise(){
         switch (orientation){
-            case 0 : rotateClockwiseCase3(); break;
-            case 1 : rotateClockwiseCase0(); break;
-            case 2 : rotateClockwiseCase1(); break;
-            case 3 : rotateClockwiseCase2(); break;
+            case 3 : rotateClockwiseCase0(); break;
+            case 0 : rotateClockwiseCase1(); break;
+            case 1 : rotateClockwiseCase2(); break;
+            case 2 : rotateClockwiseCase3(); break;
         }
         if(applyNewCoords()){
             if(orientation == 0){

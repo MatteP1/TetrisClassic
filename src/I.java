@@ -1,8 +1,7 @@
-
 import java.awt.Color;
-import java.util.ArrayList;
 
 public class I extends Tetrimino{
+
     public I(PlayingField p){
         super(Color.CYAN, p);
         pieces.add(new GridElement(21,3, Color.CYAN, false));

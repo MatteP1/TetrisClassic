@@ -1,4 +1,4 @@
-import java.awt.*;
+import java.awt.Color;
 
 public class Z extends Tetrimino{
 
@@ -12,16 +12,6 @@ public class Z extends Tetrimino{
         one = pieces.get(1);
         two = pieces.get(2);
         three = pieces.get(3);
-    }
-
-    @Override
-    public void rotateClockwise() {
-
-    }
-
-    @Override
-    public void rotateCounterClockwise() {
-
     }
 
     @Override

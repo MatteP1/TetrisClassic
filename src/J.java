@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.util.ArrayList;
 
 public class J extends Tetrimino{
 
@@ -16,32 +15,66 @@ public class J extends Tetrimino{
     }
 
     @Override
-    public void rotateClockwise() {
-
-    }
-
-    @Override
-    public void rotateCounterClockwise() {
-
-    }
-
-    @Override
     protected void rotateClockwiseCase0() {
+        zeroy = zero.y();
+        zerox = zero.x()+2;
 
+        oney = one.y()+1;
+        onex = one.x()+1;
+
+        twoy = two.y();
+        twox = two.x();
+
+        threey = three.y()-1;
+        threex = three.x()-1;
     }
 
     @Override
     protected void rotateClockwiseCase1() {
+        zeroy = zero.y()-2;
+        zerox = zero.x();
 
+        oney = one.y()-1;
+        onex = one.x()+1;
+
+        twoy = two.y();
+        twox = two.x();
+
+        threey = three.y()+1;
+        threex = three.x()-1;
     }
 
     @Override
     protected void rotateClockwiseCase2() {
+        zeroy = zero.y();
+        zerox = zero.x()-2;
 
+        oney = one.y()-1;
+        onex = one.x()-1;
+
+        twoy = two.y();
+        twox = two.x();
+
+        threey = three.y()+1;
+        threex = three.x()+1;
     }
 
     @Override
     protected void rotateClockwiseCase3() {
+        zeroy = zero.y()+2;
+        zerox = zero.x();
 
+        oney = one.y()+1;
+        onex = one.x()-1;
+
+        twoy = two.y();
+        twox = two.x();
+
+        threey = three.y()-1;
+        threex = three.x()+1;
+    }
+
+    public String toString(){
+        return "J-piece";
     }
 }

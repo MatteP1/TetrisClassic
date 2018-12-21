@@ -20,7 +20,7 @@ public class Game implements KeyListener {
         game.startGame();
     }
 
-    // --------------------- GAME CREATION AND TIME ---------------------
+    // --------------------- GAME CREATION AND TIME HANDLING---------------------
     private Game() {
         timePassed = 0;
         score = 0;
@@ -72,7 +72,7 @@ public class Game implements KeyListener {
                 }
                 System.out.println();
             }
-        }, 500, 1000*7);
+        }, 500, 1000*3);
     }
 
     /**
@@ -88,7 +88,6 @@ public class Game implements KeyListener {
     public void step(){
         timePassed++;
         fall();
-
     }
 
     // --------------------- GAME LOGIC ---------------------
@@ -99,18 +98,18 @@ public class Game implements KeyListener {
     public void nextPiece(){
         int nextPiece = game.getRandom().nextInt(6)+1;
         Tetrimino nextTetrimino;
-//        switch (nextPiece){
-//            case 1 : nextTetrimino = new I(); break;
-//            case 2 : nextTetrimino = new J(); break;
-//            case 3 : nextTetrimino = new L(); break;
-//            case 4 : nextTetrimino = new O(); break;
-//            case 5 : nextTetrimino = new S(); break;
-//            case 6 : nextTetrimino = new T(); break;
-//            case 7 : nextTetrimino = new Z(); break;
-//
-//            default: nextTetrimino = new I();
-//        }
-        nextTetrimino = new I(playfield);
+        switch (nextPiece){
+            case 1 : nextTetrimino = new I(playfield); break;
+            case 2 : nextTetrimino = new J(playfield); break;
+            case 3 : nextTetrimino = new L(playfield); break;
+            case 4 : nextTetrimino = new O(playfield); break;
+            case 5 : nextTetrimino = new S(playfield); break;
+            case 6 : nextTetrimino = new T(playfield); break;
+            case 7 : nextTetrimino = new Z(playfield); break;
+
+            default: nextTetrimino = new I(playfield);
+        }
+        nextTetrimino = new J(playfield);
 
         currentTetrimino = nextTetrimino;
         playfield.setCurrentTetrimino(currentTetrimino);
@@ -176,7 +175,6 @@ public class Game implements KeyListener {
 
 
     // --------------------- GAME INPUT ---------------------
-
 
     @Override
     public void keyTyped(KeyEvent e) {
