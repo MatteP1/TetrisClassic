@@ -64,6 +64,17 @@ public abstract class Tetrimino {
 
     }
 
+    /**
+     * This method uses the fact that there is a connection between the rotations and orientations of the cw and ccw rotations
+     * Rotation Pairs:
+     * cw	ccw
+     * 0	3
+     * 1	0
+     * 2	1
+     * 3	2
+     * Those rotation methods do, computationally, the same, therefore ccw just calls the cw rotations
+     * with those specific orientations / cases.
+     */
     public void rotateCounterClockwise(){
         switch (orientation){
             case 3 : rotateClockwiseCase0(); break;

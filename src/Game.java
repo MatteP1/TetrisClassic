@@ -109,7 +109,7 @@ public class Game implements KeyListener {
 
             default: nextTetrimino = new I(playfield);
         }
-        nextTetrimino = new T(playfield);
+        nextTetrimino = new Z(playfield);
 
         currentTetrimino = nextTetrimino;
         playfield.setCurrentTetrimino(currentTetrimino);
