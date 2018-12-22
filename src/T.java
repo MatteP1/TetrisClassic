@@ -73,4 +73,8 @@ public class T extends Tetrimino{
         threey = three.y()-1;
         threex = three.x()+1;
     }
+
+    public String toString(){
+        return "T-piece";
+    }
 }

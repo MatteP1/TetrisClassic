@@ -1,8 +1,6 @@
 import java.awt.*;
-import java.awt.event.*;
-import java.security.Key;
+import java.util.ArrayList;
 import javax.swing.*;
-import java.awt.event.KeyEvent;
 
 public class GUI {
 
@@ -15,6 +13,8 @@ public class GUI {
     private boolean paused = false;
     private JButton pauseResumeButton;
     private static final int WIDTH = 600, HEIGHT = 800;
+    private JPanel testPanel;
+    private JPanel[][] tiles;
 
     public GUI(Game game, PlayingField playfield) {
         this.game = game;
@@ -37,6 +37,22 @@ public class GUI {
         mainFrame.setVisible(true);
     }
 
+    public void updatePlayfield(){
+        for (int i = 0; i <= 19; i++) {
+            for (int j = 0; j <= 9; j++) {
+                tiles[i][j].setBackground(Grid[i][j].getBackground());
+
+            }
+        }
+
+        ArrayList<GridElement> pieces = playfield.getCurrentTetrimino().getPieces();
+        for(GridElement g : pieces){
+            if(g.y()<20){
+                tiles[g.y()][g.x()].setBackground(g.getBackground());
+            }
+        }
+    }
+
     private void createContent(){
         //INFO AREA
         JPanel infoArea = new SideInfo(game, HEIGHT);
@@ -44,12 +60,8 @@ public class GUI {
 
         //GAME AREA
         gameArea = setupGameArea();
-        gameArea.setBackground(Color.BLACK);
-        gameArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         contentPane.add(gameArea, BorderLayout.CENTER);
-        addGameInputFunctionality();
-
 
         //OPTIONS AREA
         JPanel optionsArea = new JPanel();
@@ -92,7 +104,6 @@ public class GUI {
         settings.add(exitButton);
 
         contentPane.add(optionsArea, BorderLayout.SOUTH);
-
     }
 
     public void pauseResume(){
@@ -106,16 +117,24 @@ public class GUI {
         mainFrame.requestFocusInWindow();
     }
 
-    private void addGameInputFunctionality(){
-
-    }
-
     private JPanel setupGameArea(){
         gameArea = new JPanel();
+        gameArea.setBackground(Color.BLACK);
+        gameArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         gameArea.setLayout(new GridLayout(20,10));
-        for (int i = 0; i <= 19; i++) {
-            for(GridElement g : Grid[i]){
-                gameArea.add(g);
+        tiles = new JPanel[20][10];
+
+        for (int i = 19; i >= 0; i--) {
+            for (int j = 0; j <= 9; j++) {
+                tiles[i][j] = new JPanel();
+                tiles[i][j].setBackground(Grid[i][j].getBackground());
+                tiles[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            }
+        }
+
+        for (int i = 19; i >= 0; i--) {
+            for (int j = 0; j <= 9; j++) {
+                gameArea.add(tiles[i][j]);
             }
         }
         return gameArea;
@@ -130,5 +149,4 @@ public class GUI {
         test.add(testItem);
         menuBar.add(test);
     }
-
 }

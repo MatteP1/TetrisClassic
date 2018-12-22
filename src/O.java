@@ -35,4 +35,8 @@ public class O extends  Tetrimino{
         // The game is actually faster when i don't implement them
         // so i think it is justified.
     }
+
+    public String toString(){
+        return "O-piece";
+    }
 }

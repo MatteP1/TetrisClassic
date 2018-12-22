@@ -25,9 +25,6 @@ public class GridElement extends JPanel{
         color = c;
     }
 
-    public Color getColor(){
-        return color;
-    }
 
     public boolean isOccupied() {
         return occupied;

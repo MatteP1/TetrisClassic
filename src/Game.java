@@ -76,13 +76,6 @@ public class Game implements KeyListener {
     }
 
     /**
-     * @return The game object.
-     */
-    public Game getGame(){
-        return game;
-    }
-
-    /**
      * One ingame timeunit passes.
      */
     public void step(){
@@ -122,7 +115,6 @@ public class Game implements KeyListener {
 
             // After the moveDown, check if any rows have been filled out.
             playfield.removeFullRows();
-
             boolean lost = playfield.calculateLost();
 
             if(!lost){
@@ -147,28 +139,33 @@ public class Game implements KeyListener {
         } else {
             //move down the Tetrimino
             currentTetrimino.moveDown();
-
         }
+        gui.updatePlayfield();
     }
 
     private void moveDown(){
         currentTetrimino.moveDown();
+        gui.updatePlayfield();
     }
 
     private void moveLeft(){
         currentTetrimino.moveLeft();
+        gui.updatePlayfield();
     }
 
     private void moveRight(){
         currentTetrimino.moveRight();
+        gui.updatePlayfield();
     }
 
     private void rotateClockWise(){
         currentTetrimino.rotateClockwise();
+        gui.updatePlayfield();
     }
 
     private void rotateCounterClockWise(){
         currentTetrimino.rotateCounterClockwise();
+        gui.updatePlayfield();
     }
 
 
@@ -231,6 +228,13 @@ public class Game implements KeyListener {
     }
 
     // --------------------- GEETTERS ---------------------
+
+    /**
+     * @return The game object.
+     */
+    public Game getGame(){
+        return game;
+    }
 
     public Random getRandom(){
         return random;
