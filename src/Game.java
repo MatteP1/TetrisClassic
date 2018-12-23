@@ -92,12 +92,12 @@ public class Game implements KeyListener {
         Tetrimino nextTetrimino;
         switch (nextPiece){
             case 1 : nextTetrimino = new I(playfield); break;
-            case 2 : nextTetrimino = new J(playfield); break;
-            case 3 : nextTetrimino = new L(playfield); break;
-            case 4 : nextTetrimino = new O(playfield); break;
-            case 5 : nextTetrimino = new S(playfield); break;
-            case 6 : nextTetrimino = new T(playfield); break;
-            case 7 : nextTetrimino = new Z(playfield); break;
+//            case 2 : nextTetrimino = new J(playfield); break;
+//            case 3 : nextTetrimino = new L(playfield); break;
+//            case 4 : nextTetrimino = new O(playfield); break;
+//            case 5 : nextTetrimino = new S(playfield); break;
+//            case 6 : nextTetrimino = new T(playfield); break;
+//            case 7 : nextTetrimino = new Z(playfield); break;
 
             default: nextTetrimino = new I(playfield);
         }
@@ -136,7 +136,6 @@ public class Game implements KeyListener {
                 for(GridElement g : playfield.getGrid()[20]){
                     System.out.println(g.isOccupied());
                 }
-                System.out.println("x-value: " + playfield.getGrid()[20][4].x());
                 System.out.println("y-value: " + playfield.getGrid()[20][4].y());
 
             }

@@ -56,12 +56,14 @@ public class PlayingField {
      */
     public void removeFullRows(){
         ArrayList<Integer> fullRows = checkForFullRows();
+        fullRows.sort(Comparator.reverseOrder());
 
         if(!fullRows.isEmpty()){
             for(Integer i : fullRows){
                 removeRow(i);
             }
         }
+        System.out.println("Row 38 y value : " + Grid[38][0].y());
         int calculatedScore = fullRows.size(); //Change later to include combos.
         game.increaseScore(calculatedScore);
     }
@@ -92,11 +94,13 @@ public class PlayingField {
      */
     private void removeRow(int rowIndex){
         for (int i = rowIndex; i <= 38; i++) {
-            Grid[i] = Grid[i+1];
-            for(GridElement g : Grid[i]){
-                g.setY(g.y()-1);
+            for (int j = 0; j <= 9; j++) {
+                Grid[i][j].setOccupied(Grid[i+1][j].isOccupied());
+                Grid[i][j].setBackground(Grid[i+1][j].getBackground());
             }
         }
+
+
     }
 
     public Tetrimino getCurrentTetrimino(){
