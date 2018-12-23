@@ -7,16 +7,15 @@ public class PlayingField {
 
 
     public PlayingField(Game game) {
-        initializeGrid();
+        Grid = new GridElement[40][10];
+        clearGrid();
         this.game = game;
     }
 
     /**
      * Sets up the grid with empty GridElements
      */
-    private void initializeGrid(){
-        Grid = new GridElement[40][10];
-
+    public void clearGrid(){
         for (int i = 0; i <= 39; i++) {
             for (int j = 0; j <= 9; j++) {
                 Grid[i][j] = new GridElement(i, j, Color.GRAY, false);

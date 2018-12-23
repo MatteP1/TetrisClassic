@@ -45,7 +45,6 @@ public class GUI {
         for (int i = 0; i <= 19; i++) {
             for (int j = 0; j <= 9; j++) {
                 tiles[i][j].setBackground(Grid[i][j].getBackground());
-
             }
         }
 
@@ -85,25 +84,30 @@ public class GUI {
 
         pauseResumeButton = new JButton("Pause");
         pauseResumeButton.addActionListener(e -> pauseResume());
-        //ADD PAUSE FUNCTIONALITY HERE
         pauseResumeButton.setBackground(Color.DARK_GRAY);
         pauseResumeButton.setForeground(Color.GREEN);
         settings.add(pauseResumeButton);
 
         JButton newGame = new JButton("New Game");
-        //ADD NEW GAME FUNCTIONALITY HERE
+        newGame.addActionListener(e -> {
+            game.newGame();
+            mainFrame.requestFocusInWindow();
+        });
         newGame.setBackground(Color.DARK_GRAY);
         newGame.setForeground(Color.GREEN);
         settings.add(newGame);
 
         JButton settingsButton = new JButton("Settings");
-        //ADD SETTINGS FUNCTIONALITY HERE
+        settingsButton.addActionListener(e -> {
+            openSettings();
+            mainFrame.requestFocusInWindow();
+        });
         settingsButton.setBackground(Color.DARK_GRAY);
         settingsButton.setForeground(Color.GREEN);
         settings.add(settingsButton);
 
         JButton exitButton = new JButton("Exit Game");
-        exitButton.addActionListener(e -> System.exit(0)); //ADD POPUP ASKING IF THEY ARE SURE THEY WANT TO EXIT
+        exitButton.addActionListener(e -> System.exit(0));
         exitButton.setBackground(Color.DARK_GRAY);
         exitButton.setForeground(Color.GREEN);
         settings.add(exitButton);
@@ -120,6 +124,10 @@ public class GUI {
             pauseResumeButton.setText("Pause");
         }
         mainFrame.requestFocusInWindow();
+    }
+
+    private void openSettings(){
+        //OPEN SETTINGS
     }
 
     private JPanel createGameArea(){

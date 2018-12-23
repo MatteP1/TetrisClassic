@@ -40,6 +40,17 @@ public class Game implements KeyListener {
         startTimer();
     }
 
+    public void newGame(){
+        stopGame();
+        timePassed = 0;
+        score = 0;
+        playfield.clearGrid();
+        time = new Timer();
+        startGame();
+        paused = false;
+        gui.updatePlayfield();
+    }
+
     private void stopGame(){
         time.cancel();
         paused = true;
