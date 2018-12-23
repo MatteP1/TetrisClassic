@@ -3,7 +3,6 @@ import java.awt.event.KeyListener;
 import java.util.*;
 
 public class Game implements KeyListener {
-    //private static Game game = new Game();
     private Game game;
     private int timePassed;
     private int score;
@@ -309,13 +308,6 @@ public class Game implements KeyListener {
     }
 
     // --------------------- GEETTERS ---------------------
-
-    /**
-     * @return The game object.
-     */
-    public Game getGame(){
-        return game;
-    }
 
     public Random getRandom(){
         return random;
