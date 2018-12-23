@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class GUI {
 
@@ -13,8 +14,11 @@ public class GUI {
     private boolean paused = false;
     private JButton pauseResumeButton;
     private static final int WIDTH = 600, HEIGHT = 800;
-    private JPanel testPanel;
     private JPanel[][] tiles;
+    private JPanel sideInfo;
+    private JLabel stats;
+
+
 
     public GUI(Game game, PlayingField playfield) {
         this.game = game;
@@ -51,15 +55,17 @@ public class GUI {
                 tiles[g.y()][g.x()].setBackground(g.getBackground());
             }
         }
+        stats.setText(generateStatsText());
     }
 
     private void createContent(){
         //INFO AREA
         JPanel infoArea = new SideInfo(game, HEIGHT);
-        contentPane.add(infoArea,BorderLayout.EAST);
+        createSideInfo();
+        contentPane.add(sideInfo, BorderLayout.EAST);
 
         //GAME AREA
-        gameArea = setupGameArea();
+        gameArea = createGameArea();
 
         contentPane.add(gameArea, BorderLayout.CENTER);
 
@@ -117,7 +123,7 @@ public class GUI {
         mainFrame.requestFocusInWindow();
     }
 
-    private JPanel setupGameArea(){
+    private JPanel createGameArea(){
         gameArea = new JPanel();
         gameArea.setBackground(Color.BLACK);
         gameArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -138,6 +144,52 @@ public class GUI {
             }
         }
         return gameArea;
+    }
+
+    private void createSideInfo(){
+        sideInfo = new JPanel();
+        sideInfo.setBackground(Color.BLACK);
+        sideInfo.setPreferredSize(new Dimension(200, HEIGHT));
+        sideInfo.setLayout(new BoxLayout(sideInfo,  BoxLayout.Y_AXIS));
+
+        // --------------- STATS AREA ---------------
+        stats = new JLabel(generateStatsText(), SwingConstants.LEFT);
+        stats.setBorder(new EmptyBorder(200,25,0,0));
+        stats.setForeground(Color.GREEN);
+
+        sideInfo.add(stats);
+
+        // --------------- CONTROLS AREA ---------------
+
+        String controlsText =
+                "<html>" +
+                        "<h1>Controls</h1> " +
+                        "<p>" +
+                        "Move Left: ←<br> " +
+                        "Move Right: →<br>" +
+                        "Move Down: Ctrl<br>" +
+                        "Rotate Anticlockwise: ↑<br>" +
+                        "Rotate Clockwise: ↓<br>" +
+                        "Drop: Space<br>" +
+                        "Pause Game: Esc<br>" +
+                        "</p>" +
+                "</html>";
+
+        JLabel controls = new JLabel(controlsText, SwingConstants.LEFT);
+        controls.setForeground(Color.GREEN);
+        controls.setBorder(new EmptyBorder(50,25,0,0));
+
+        sideInfo.add(controls);
+    }
+
+    private String generateStatsText(){
+        return "<html>" +
+                        "<h1>Stats</h1> " +
+                        "<p>" +
+                        "Time : " + game.getTimePassed() +"<br> " +
+                        "Score : " + game.getScore() +"<br>" +
+                        "</p>" +
+                "</html>";
     }
 
     private void createFile(){

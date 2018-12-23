@@ -33,7 +33,6 @@ public class Game implements KeyListener {
 
     /**
      * Initializes the game time.
-     * 3 seconds pass between each tetrimino moveDown.
      */
     private void startGame(){
         paused = false;
@@ -72,7 +71,7 @@ public class Game implements KeyListener {
                 }
                 System.out.println();
             }
-        }, 500, 1000*3);
+        }, 500, 1000*1);
     }
 
     /**
@@ -114,6 +113,7 @@ public class Game implements KeyListener {
             playfield.insertCurrentPieceIntoGrid();
 
             // After the moveDown, check if any rows have been filled out.
+            // NEEDS FIXING. ONLY REMOVES HALF THE ROWS
             playfield.removeFullRows();
             boolean lost = playfield.calculateLost();
 

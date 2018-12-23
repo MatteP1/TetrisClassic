@@ -4,10 +4,10 @@ public class J extends Tetrimino{
 
     public J(PlayingField p){
         super(Color.BLUE, p);
-        pieces.add(new GridElement(22,3, Color.BLUE, true));
         pieces.add(new GridElement(21,3, Color.BLUE, true));
-        pieces.add(new GridElement(21,4, Color.BLUE, true));
-        pieces.add(new GridElement(21,5, Color.BLUE, true));
+        pieces.add(new GridElement(20,3, Color.BLUE, true));
+        pieces.add(new GridElement(20,4, Color.BLUE, true));
+        pieces.add(new GridElement(20,5, Color.BLUE, true));
         zero = pieces.get(0);
         one = pieces.get(1);
         two = pieces.get(2);

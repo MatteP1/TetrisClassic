@@ -140,24 +140,36 @@ public abstract class Tetrimino {
      * Moves the tetrimino one unit to the left
      */
     public void moveLeft(){
-        int indexOfRightermostBlock = Math.min(Math.min(pieces.get(0).x(),pieces.get(1).x()),Math.min(pieces.get(2).x(),pieces.get(3).x()));
-        if(indexOfRightermostBlock != 0){
-            for(GridElement i : pieces){
-                i.setX(i.x()-1);
-            }
-        }
+        zeroy = zero.y();
+        zerox = zero.x()-1;
+
+        oney = one.y();
+        onex = one.x()-1;
+
+        twoy = two.y();
+        twox = two.x()-1;
+
+        threey = three.y();
+        threex = three.x()-1;
+        applyNewCoords();
     }
 
     /**
      * Moves the tetrimino one unit to the right
      */
     public void moveRight(){
-        int indexOfRightermostBlock = Math.max(Math.max(pieces.get(0).x(),pieces.get(1).x()),Math.max(pieces.get(2).x(),pieces.get(3).x()));
-        if(indexOfRightermostBlock != 9){
-            for(GridElement i : pieces){
-                i.setX(i.x()+1);
-            }
-        }
+        zeroy = zero.y();
+        zerox = zero.x()+1;
+
+        oney = one.y();
+        onex = one.x()+1;
+
+        twoy = two.y();
+        twox = two.x()+1;
+
+        threey = three.y();
+        threex = three.x()+1;
+        applyNewCoords();
     }
 
 
