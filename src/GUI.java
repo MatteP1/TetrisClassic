@@ -42,18 +42,29 @@ public class GUI {
     }
 
     public void updatePlayfield(){
+        //Display the grid
         for (int i = 0; i <= 19; i++) {
             for (int j = 0; j <= 9; j++) {
                 tiles[i][j].setBackground(Grid[i][j].getBackground());
             }
         }
 
+        //Display ghost pieces of currenttetrimino
+        for(GridElement g : playfield.calculateGhost()){
+            if(g.y() < 20) {
+                tiles[g.y()][g.x()].setBackground(Color.GRAY.darker());
+            }
+        }
+
+        //Display currenttetrimino
         ArrayList<GridElement> pieces = playfield.getCurrentTetrimino().getPieces();
         for(GridElement g : pieces){
             if(g.y()<20){
                 tiles[g.y()][g.x()].setBackground(g.getBackground());
             }
         }
+
+
         stats.setText(generateStatsText());
     }
 
@@ -174,8 +185,8 @@ public class GUI {
                         "<p>" +
                         "Move Left: ←<br> " +
                         "Move Right: →<br>" +
-                        "Move Down: Ctrl<br>" +
-                        "Rotate Anticlockwise: ↑<br>" +
+                        "Move Down: ↑<br>" +
+                        "Rotate Counterclockwise: Ctrl<br>" +
                         "Rotate Clockwise: ↓<br>" +
                         "Drop: Space<br>" +
                         "Pause Game: Esc<br>" +
@@ -197,6 +208,14 @@ public class GUI {
                         "Score : " + game.getScore() +"<br>" +
                         "</p>" +
                 "</html>";
+    }
+
+    public void gameLostScreen(){
+        for (int i = 0; i <= 19; i++) {
+            for (int j = 0; j <= 9; j++) {
+                Grid[i][j].setBackground(Grid[i][j].getBackground().darker().darker().darker());
+            }
+        }
     }
 
     private void createFile(){

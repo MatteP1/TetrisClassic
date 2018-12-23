@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.*;
 import java.awt.Color;
 public class PlayingField {
@@ -31,15 +32,32 @@ public class PlayingField {
         }
     }
 
-//    public boolean calculateEnd(){
-//        ArrayList<GridElement> pieces = currentTetrimino.getPieces();
-//        for(GridElement i : pieces){
-//            if(i.y() == 0 || Grid[i.y()-1][i.x()].isOccupied()){
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+    /**
+     * calculates the values of the ghost piece, that is the position of the current tetrimino if it is dropped.
+     * returns empty playlist if closestToOccupiedSlot is 0
+     */
+    public ArrayList<GridElement> calculateGhost(){
+        int closestToOccupiedSlot = Integer.MAX_VALUE;
+        for(GridElement g : currentTetrimino.getPieces()){
+            closestToOccupiedSlot = Math.min(g.y(), closestToOccupiedSlot);
+        }
+
+        for(GridElement g : currentTetrimino.getPieces()){
+            for (int i = 1; i <= g.y(); i++) {
+                if (Grid[g.y()-i][g.x()].isOccupied()){
+                    closestToOccupiedSlot = Math.min(i-1, closestToOccupiedSlot);
+                }
+            }
+        }
+
+        ArrayList<GridElement> ghostPieces = new ArrayList<>(4);
+
+        for(GridElement g : currentTetrimino.getPieces()){
+            ghostPieces.add(Grid[g.y()-closestToOccupiedSlot][g.x()]);
+        }
+
+        return ghostPieces;
+    }
 
     public boolean calculateLost(){
         for(GridElement g : Grid[20]){

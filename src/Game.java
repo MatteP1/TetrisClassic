@@ -82,7 +82,7 @@ public class Game implements KeyListener {
                 }
                 System.out.println();
             }
-        }, 500, 1000*1);
+        }, 500, 1000*5);
     }
 
     /**
@@ -151,6 +151,8 @@ public class Game implements KeyListener {
         } else {
             game.stopGame();
             System.out.println("Game Over!");
+            gui.gameLostScreen();
+            gui.updatePlayfield();
         }
     }
 
@@ -159,7 +161,6 @@ public class Game implements KeyListener {
             moveDown();
         }
         insertIntoGrid();
-
         gui.updatePlayfield();
     }
 
@@ -217,7 +218,7 @@ public class Game implements KeyListener {
 
             case KeyEvent.VK_CONTROL : {
                 if (!paused) {
-                    moveDown();
+                    rotateCounterClockWise();
                 }
                 break;
             }
@@ -237,7 +238,7 @@ public class Game implements KeyListener {
 
             case KeyEvent.VK_DOWN : {
                 if (!paused) {
-                    rotateCounterClockWise();
+                    moveDown();
                 }
                 break;
             }
