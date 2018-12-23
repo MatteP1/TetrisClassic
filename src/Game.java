@@ -11,9 +11,10 @@ public class Game implements KeyListener {
     private Random random;
     private PlayingField playfield;
     private Tetrimino currentTetrimino;
+    private Tetrimino savedTetrimino;
     private boolean paused;
     private GUI gui;
-
+    private boolean changedCurrentTetriminoThisRound;
 
     public static void main(String[] args) {
         Game game = new Game();
@@ -44,6 +45,7 @@ public class Game implements KeyListener {
         stopGame();
         timePassed = 0;
         score = 0;
+        savedTetrimino = null;
         playfield.clearGrid();
         time = new Timer();
         startGame();
@@ -82,7 +84,7 @@ public class Game implements KeyListener {
                 }
                 System.out.println();
             }
-        }, 500, 1000*5);
+        }, 500, 1000*1);
     }
 
     /**
@@ -116,6 +118,45 @@ public class Game implements KeyListener {
         playfield.setCurrentTetrimino(currentTetrimino);
     }
 
+    private void changeCurrentTetrimino(){
+        if(!changedCurrentTetriminoThisRound) {
+            if (savedTetrimino == null) {
+                savedTetrimino = currentTetrimino;
+                savedTetrimino = createNewInstanceOf(savedTetrimino);
+                nextPiece();
+            } else {
+                Tetrimino temp = savedTetrimino;
+                savedTetrimino = currentTetrimino;
+                savedTetrimino = createNewInstanceOf(savedTetrimino);
+                currentTetrimino = temp;
+                playfield.setCurrentTetrimino(currentTetrimino);
+            }
+            changedCurrentTetriminoThisRound = true;
+        }
+
+        gui.updatePlayfield();
+    }
+
+    private Tetrimino createNewInstanceOf(Tetrimino t) {
+        if(t instanceof I) {
+            return new I(playfield);
+        } else if(t instanceof J){
+            return new J(playfield);
+        } else if(t instanceof L){
+            return new L(playfield);
+        } else if(t instanceof O){
+            return new O(playfield);
+        } else if(t instanceof S){
+            return new S(playfield);
+        } else if(t instanceof T){
+            return new T(playfield);
+        } else if(t instanceof Z){
+            return new Z(playfield);
+        } else {
+            return new I(playfield);
+        }
+    }
+
     /**
      * Makes the current tetrimino moveDown down 1 row if there is space for it.
      */
@@ -135,7 +176,7 @@ public class Game implements KeyListener {
         boolean lost = playfield.calculateLost();
         if(!lost){
             nextPiece();
-
+            changedCurrentTetriminoThisRound = false;
             System.out.println("Piece fallen");
             System.out.println("Next piece is: " + currentTetrimino.toString());
             System.out.println("Currently occupied slots:");
@@ -243,6 +284,13 @@ public class Game implements KeyListener {
                 break;
             }
 
+            case KeyEvent.VK_C : {
+                if(!paused){
+                    changeCurrentTetrimino();
+                }
+                break;
+            }
+
             case KeyEvent.VK_ESCAPE : {
                 gui.pauseResume();
                 break;
@@ -282,6 +330,9 @@ public class Game implements KeyListener {
     }
     public boolean isPaused(){
         return paused;
+    }
+    public Tetrimino getSavedTetrimino(){
+        return savedTetrimino;
     }
 
 }

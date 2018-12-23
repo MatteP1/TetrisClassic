@@ -17,6 +17,7 @@ public class GUI {
     private JPanel[][] tiles;
     private JPanel sideInfo;
     private JLabel stats;
+    private JPanel saveTetrimino;
 
 
 
