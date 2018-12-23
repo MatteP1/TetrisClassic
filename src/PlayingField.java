@@ -53,11 +53,20 @@ public class PlayingField {
         return false;
     }
 
+    /**
+     * Removes all full rows in the playing-field
+     */
     public void removeFullRows(){
         ArrayList<Integer> fullRows = checkForFullRows();
+        fullRows.sort(Collections.reverseOrder());
+
         if(!fullRows.isEmpty()){
-            removeRows(fullRows);
+            for(Integer i : fullRows){
+                removeRow(i);
+            }
         }
+        int calculatedScore = fullRows.size(); //Change later to include combos.
+        game.increaseScore(calculatedScore);
     }
 
     /**
@@ -81,18 +90,17 @@ public class PlayingField {
     }
 
     /**
-     * Removes the full rows and adds point to the score
-     * @param rows The rows to be cleared
+     * Removes the row and adds a new, empty row to the top
+     * @param rowIndex The row to be cleared
      */
-    private void removeRows(ArrayList<Integer> rows){
-        //Moves all rows above the i'th row, one down.
-        for(Integer i : rows){
-            for (int j = i; j < 23; j++) {
-                Grid[j] = Grid[j+1];
-            }
+    private void removeRow(int rowIndex){
+        for (int j = rowIndex; j <= 38; j++) {
+            Grid[j] = Grid[j+1];
         }
-        int calculatedScore = rows.size(); //Change later to include combos.
-        game.increaseScore(calculatedScore);
+
+        for (int j = 0; j <= 9; j++) {
+            Grid[39][j] = new GridElement(39, j, Color.GRAY, false);
+        }
     }
 
     public Tetrimino getCurrentTetrimino(){
