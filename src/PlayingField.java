@@ -63,7 +63,6 @@ public class PlayingField {
                 removeRow(i);
             }
         }
-        System.out.println("Row 38 y value : " + Grid[38][0].y());
         int calculatedScore = fullRows.size(); //Change later to include combos.
         game.increaseScore(calculatedScore);
     }
@@ -89,7 +88,7 @@ public class PlayingField {
     }
 
     /**
-     * Removes the row and adds a new, empty row to the top
+     * Copies the information from the row above, down to the row below, for each row above the given index.
      * @param rowIndex The row to be cleared
      */
     private void removeRow(int rowIndex){
@@ -99,8 +98,6 @@ public class PlayingField {
                 Grid[i][j].setBackground(Grid[i+1][j].getBackground());
             }
         }
-
-
     }
 
     public Tetrimino getCurrentTetrimino(){
