@@ -90,7 +90,7 @@ public class Game implements KeyListener {
      */
     public void step(){
         timePassed++;
-        fall();
+        computerMoveDown();
     }
 
     // --------------------- GAME LOGIC ---------------------
@@ -119,37 +119,47 @@ public class Game implements KeyListener {
     /**
      * Makes the current tetrimino moveDown down 1 row if there is space for it.
      */
-    public void fall(){
-        if(playfield.calculateEnd()){ // Check if there is a spot under, that is occupied by another tetrimino
-            playfield.insertCurrentPieceIntoGrid();
+    public void computerMoveDown(){
+        boolean successful = currentTetrimino.moveDown();
+        if(!successful){
+            insertIntoGrid();
+        }
+        gui.updatePlayfield();
+    }
 
-            // After the moveDown, check if any rows have been filled out.
-            playfield.removeFullRows();
-            boolean lost = playfield.calculateLost();
+    private void insertIntoGrid(){
+        playfield.insertCurrentPieceIntoGrid();
 
-            if(!lost){
-                nextPiece();
-                System.out.println("Piece fallen");
-                System.out.println("Next piece is: " + currentTetrimino.toString());
-                System.out.println("Currently occupied slots:");
-                for(GridElement[] G : playfield.getGrid()){
-                    for(GridElement g : G){
-                        if(g.isOccupied()){
-                            System.out.print("(" + g.y() +", "+  g.x() + ") ");
-                        }
+        // After the moveDown, check if any rows have been filled out.
+        playfield.removeFullRows();
+        boolean lost = playfield.calculateLost();
+        if(!lost){
+            nextPiece();
+
+            System.out.println("Piece fallen");
+            System.out.println("Next piece is: " + currentTetrimino.toString());
+            System.out.println("Currently occupied slots:");
+            for(GridElement[] G : playfield.getGrid()){
+                for(GridElement g : G){
+                    if(g.isOccupied()){
+                        System.out.print("(" + g.y() +", "+  g.x() + ") ");
                     }
                 }
-                System.out.println();
-
-            } else {
-                game.stopGame();
-                System.out.println("Game Over!");
             }
+            System.out.println();
 
         } else {
-            //move down the Tetrimino
-            currentTetrimino.moveDown();
+            game.stopGame();
+            System.out.println("Game Over!");
         }
+    }
+
+    private void drop(){
+        for(int i = 0; i < 20; i++){
+            moveDown();
+        }
+        insertIntoGrid();
+
         gui.updatePlayfield();
     }
 
@@ -214,7 +224,7 @@ public class Game implements KeyListener {
 
             case KeyEvent.VK_SPACE : {
                 if (!paused) {
-                    //IMPLEMENT DROP
+                    drop();
                 }
             }
 

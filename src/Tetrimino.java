@@ -176,7 +176,7 @@ public abstract class Tetrimino {
     /**
      * Makes the current tetrimino moveDown down 1 row if there is space for it.
      */
-    public void moveDown() {
+    public boolean moveDown() {
         zeroy = zero.y()-1;
         zerox = zero.x();
 
@@ -188,7 +188,7 @@ public abstract class Tetrimino {
 
         threey = three.y()-1;
         threex = three.x();
-        applyNewCoords();
+        return applyNewCoords();
     }
 
 

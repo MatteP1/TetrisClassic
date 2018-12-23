@@ -31,15 +31,15 @@ public class PlayingField {
         }
     }
 
-    public boolean calculateEnd(){
-        ArrayList<GridElement> pieces = currentTetrimino.getPieces();
-        for(GridElement i : pieces){
-            if(i.y() == 0 || Grid[i.y()-1][i.x()].isOccupied()){
-                return true;
-            }
-        }
-        return false;
-    }
+//    public boolean calculateEnd(){
+//        ArrayList<GridElement> pieces = currentTetrimino.getPieces();
+//        for(GridElement i : pieces){
+//            if(i.y() == 0 || Grid[i.y()-1][i.x()].isOccupied()){
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     public boolean calculateLost(){
         for(GridElement g : Grid[20]){

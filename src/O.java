@@ -17,23 +17,62 @@ public class O extends  Tetrimino{
 
     @Override
     protected void rotateClockwiseCase0() {
-        //Not gonna implement these
+        zeroy = zero.y();
+        zerox = zero.x();
+
+        oney = one.y();
+        onex = one.x();
+
+        twoy = two.y();
+        twox = two.x();
+
+        threey = three.y();
+        threex = three.x();
     }
 
     @Override
     protected void rotateClockwiseCase1() {
-        //Nothing happens anyways
+        zeroy = zero.y();
+        zerox = zero.x();
+
+        oney = one.y();
+        onex = one.x();
+
+        twoy = two.y();
+        twox = two.x();
+
+        threey = three.y();
+        threex = three.x();
     }
 
     @Override
     protected void rotateClockwiseCase2() {
-        //Lol
+        zeroy = zero.y();
+        zerox = zero.x();
+
+        oney = one.y();
+        onex = one.x();
+
+        twoy = two.y();
+        twox = two.x();
+
+        threey = three.y();
+        threex = three.x();
     }
 
     @Override
     protected void rotateClockwiseCase3() {
-        // The game is actually faster when i don't implement them
-        // so i think it is justified.
+        zeroy = zero.y();
+        zerox = zero.x();
+
+        oney = one.y();
+        onex = one.x();
+
+        twoy = two.y();
+        twox = two.x();
+
+        threey = three.y();
+        threex = three.x();
     }
 
     public String toString(){
