@@ -14,10 +14,10 @@ public class GUI {
     private boolean paused = false;
     private JButton pauseResumeButton;
     private static final int WIDTH = 600, HEIGHT = 800;
-    private JPanel[][] tiles;
+    private JPanel[][] tiles, savedTiles;
     private JPanel sideInfo;
     private JLabel stats;
-    private JPanel saveTetrimino;
+    private JPanel savedTetrimino;
 
 
 
@@ -50,14 +50,28 @@ public class GUI {
             }
         }
 
-        //Display ghost pieces of currenttetrimino
+        //Display the saved tetrimino grid
+        for (int i = 0; i <= 3; i++) {
+            for (int j = 0; j <= 3; j++) {
+                savedTiles[i][j].setBackground(Color.DARK_GRAY.darker());
+            }
+        }
+
+        //Display the saved tetrimino
+        if(game.getSavedTetrimino() != null) {
+            for (GridElement g : game.getSavedTetrimino().getPieces()) {
+                savedTiles[g.y() - 19][g.x() - 3].setBackground(g.getBackground());
+            }
+        }
+
+        //Display ghost pieces of current tetrimino
         for(GridElement g : playfield.calculateGhost()){
             if(g.y() < 20) {
                 tiles[g.y()][g.x()].setBackground(Color.GRAY.darker());
             }
         }
 
-        //Display currenttetrimino
+        //Display current tetrimino
         ArrayList<GridElement> pieces = playfield.getCurrentTetrimino().getPieces();
         for(GridElement g : pieces){
             if(g.y()<20){
@@ -147,15 +161,16 @@ public class GUI {
         gameArea.setBackground(Color.BLACK);
         gameArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         gameArea.setLayout(new GridLayout(20,10));
-        tiles = new JPanel[20][10];
+        tiles = newEmptyGrid(19,9, Color.GRAY);
+//        tiles = new JPanel[20][10];
 
-        for (int i = 19; i >= 0; i--) {
-            for (int j = 0; j <= 9; j++) {
-                tiles[i][j] = new JPanel();
-                tiles[i][j].setBackground(Grid[i][j].getBackground());
-                tiles[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            }
-        }
+//        for (int i = 19; i >= 0; i--) {
+//            for (int j = 0; j <= 9; j++) {
+//                tiles[i][j] = new JPanel();
+//                tiles[i][j].setBackground(Grid[i][j].getBackground());
+//                tiles[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+//            }
+//        }
 
         for (int i = 19; i >= 0; i--) {
             for (int j = 0; j <= 9; j++) {
@@ -169,14 +184,45 @@ public class GUI {
         sideInfo = new JPanel();
         sideInfo.setBackground(Color.BLACK);
         sideInfo.setPreferredSize(new Dimension(200, HEIGHT));
-        sideInfo.setLayout(new BoxLayout(sideInfo,  BoxLayout.Y_AXIS));
+        sideInfo.setLayout(new BorderLayout());
+        sideInfo.setBorder(new EmptyBorder(15,15,15,15));
+
+
+        // --------------- SAVED PIECE AREA ---------------
+        JPanel savedTetriminoArea = new JPanel();
+        savedTetriminoArea.setLayout(new BorderLayout());
+        savedTetriminoArea.setBackground(Color.BLACK);
+
+        String savedPieceString = "<html><h1>Saved piece</h1></html>";
+        JLabel savedTetriminoLabel = new JLabel(savedPieceString, SwingConstants.LEFT);
+        savedTetriminoLabel.setForeground(Color.GREEN);
+        savedTetriminoArea.add(savedTetriminoLabel, BorderLayout.NORTH);
+
+        savedTetrimino = new JPanel();
+        savedTetrimino.setBackground(Color.BLACK);
+        savedTetrimino.setLayout(new GridLayout(4,4));
+        savedTetrimino.setPreferredSize(new Dimension(170,170));
+        savedTetrimino.setBorder(new EmptyBorder(0,0,15,0));
+
+        savedTiles = newEmptyGrid(3,3, Color.DARK_GRAY.darker());
+        for (int i = 3; i >= 0; i--) {
+            for (int j = 0; j <= 3; j++) {
+                savedTetrimino.add(savedTiles[i][j]);
+            }
+        }
+        savedTetriminoArea.add(savedTetrimino, BorderLayout.CENTER);
+
+        sideInfo.add(savedTetriminoArea, BorderLayout.NORTH);
+
+        // ------------------------------ TEXT AREA ------------------------------
+        JPanel textArea = new JPanel();
+        textArea.setBackground(Color.BLACK);
+        textArea.setLayout(new BoxLayout(textArea,BoxLayout.Y_AXIS));
 
         // --------------- STATS AREA ---------------
         stats = new JLabel(generateStatsText(), SwingConstants.LEFT);
-        stats.setBorder(new EmptyBorder(200,25,0,0));
         stats.setForeground(Color.GREEN);
-
-        sideInfo.add(stats);
+        textArea.add(stats);
 
         // --------------- CONTROLS AREA ---------------
 
@@ -196,9 +242,23 @@ public class GUI {
 
         JLabel controls = new JLabel(controlsText, SwingConstants.LEFT);
         controls.setForeground(Color.GREEN);
-        controls.setBorder(new EmptyBorder(50,25,0,0));
+        controls.setBorder(new EmptyBorder(50,0,0,0));
 
-        sideInfo.add(controls);
+        textArea.add(controls);
+        sideInfo.add(textArea,BorderLayout.CENTER);
+
+    }
+
+    private JPanel[][] newEmptyGrid(int rows, int cols, Color background){
+        JPanel[][] newGrid = new JPanel[rows+1][cols+1];
+        for (int i = rows; i >= 0; i--) {
+            for (int j = 0; j <= cols; j++) {
+                newGrid[i][j] = new JPanel();
+                newGrid[i][j].setBackground(background);
+                newGrid[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            }
+        }
+        return newGrid;
     }
 
     private String generateStatsText(){

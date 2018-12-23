@@ -4,7 +4,6 @@ public class O extends  Tetrimino{
 
     public O(PlayingField p){
         super(Color.YELLOW, p);
-        //CHANGE ALL Y-X IN ALL PIECES CLASSES
         pieces.add(new GridElement(20,4, Color.YELLOW, true));
         pieces.add(new GridElement(21,4, Color.YELLOW, true));
         pieces.add(new GridElement(20,5, Color.YELLOW, true));
