@@ -177,12 +177,18 @@ public abstract class Tetrimino {
      * Makes the current tetrimino moveDown down 1 row if there is space for it.
      */
     public void moveDown() {
-        if (!playfield.calculateEnd()) { // Check if there is a spot under, that is occupied by another tetrimino
-            for (GridElement i : pieces) {
-                i.setY(i.y() - 1);
+        zeroy = zero.y()-1;
+        zerox = zero.x();
 
-            }
-        }
+        oney = one.y()-1;
+        onex = one.x();
+
+        twoy = two.y()-1;
+        twox = two.x();
+
+        threey = three.y()-1;
+        threex = three.x();
+        applyNewCoords();
     }
 
 

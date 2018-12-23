@@ -2,7 +2,6 @@ import java.util.*;
 import java.awt.Color;
 public class PlayingField {
     private Tetrimino currentTetrimino;
-    private boolean tetriminoHasFallen;
     private GridElement[][] Grid;
     private Game game;
 
@@ -37,7 +36,6 @@ public class PlayingField {
         ArrayList<GridElement> pieces = currentTetrimino.getPieces();
         for(GridElement i : pieces){
             if(i.y() == 0 || Grid[i.y()-1][i.x()].isOccupied()){
-                tetriminoHasFallen = true;
                 return true;
             }
         }
@@ -45,7 +43,7 @@ public class PlayingField {
     }
 
     public boolean calculateLost(){
-        for(GridElement g : Grid[21]){
+        for(GridElement g : Grid[20]){
             if(g.isOccupied()){
                 return true;
             }
@@ -58,7 +56,6 @@ public class PlayingField {
      */
     public void removeFullRows(){
         ArrayList<Integer> fullRows = checkForFullRows();
-        fullRows.sort(Collections.reverseOrder());
 
         if(!fullRows.isEmpty()){
             for(Integer i : fullRows){
@@ -74,7 +71,7 @@ public class PlayingField {
      */
     private ArrayList<Integer> checkForFullRows(){
         ArrayList<Integer> fullRows = new ArrayList<>();
-        for (int i = 0; i < 22; i++) {
+        for (int i = 0; i < 21; i++) {
             int amountOccupied = 0;
 
             for (int j = 0; j <= 9; j++) {
@@ -94,12 +91,11 @@ public class PlayingField {
      * @param rowIndex The row to be cleared
      */
     private void removeRow(int rowIndex){
-        for (int j = rowIndex; j <= 38; j++) {
-            Grid[j] = Grid[j+1];
-        }
-
-        for (int j = 0; j <= 9; j++) {
-            Grid[39][j] = new GridElement(39, j, Color.GRAY, false);
+        for (int i = rowIndex; i <= 38; i++) {
+            Grid[i] = Grid[i+1];
+            for(GridElement g : Grid[i]){
+                g.setY(g.y()-1);
+            }
         }
     }
 

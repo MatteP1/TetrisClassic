@@ -88,7 +88,7 @@ public class Game implements KeyListener {
      * Calculates the next piece to moveDown down.
      */
     public void nextPiece(){
-        int nextPiece = game.getRandom().nextInt(6)+1;
+        int nextPiece = game.getRandom().nextInt(7)+1;
         Tetrimino nextTetrimino;
         switch (nextPiece){
             case 1 : nextTetrimino = new I(playfield); break;
@@ -113,7 +113,6 @@ public class Game implements KeyListener {
             playfield.insertCurrentPieceIntoGrid();
 
             // After the moveDown, check if any rows have been filled out.
-            // NEEDS FIXING. ONLY REMOVES HALF THE ROWS
             playfield.removeFullRows();
             boolean lost = playfield.calculateLost();
 
@@ -134,6 +133,12 @@ public class Game implements KeyListener {
             } else {
                 game.stopGame();
                 System.out.println("Game Over!");
+                for(GridElement g : playfield.getGrid()[20]){
+                    System.out.println(g.isOccupied());
+                }
+                System.out.println("x-value: " + playfield.getGrid()[20][4].x());
+                System.out.println("y-value: " + playfield.getGrid()[20][4].y());
+
             }
 
         } else {
@@ -181,39 +186,51 @@ public class Game implements KeyListener {
 
         switch(e.getKeyCode()) {
 
-            case KeyEvent.VK_LEFT :
+            case KeyEvent.VK_LEFT : {
                 if (!paused) {
                     moveLeft();
                 }
                 break;
+            }
 
-            case KeyEvent.VK_RIGHT :
+            case KeyEvent.VK_RIGHT : {
                 if (!paused) {
                     moveRight();
                 }
                 break;
+            }
 
-            case KeyEvent.VK_CONTROL :
-                if(!paused){
+            case KeyEvent.VK_CONTROL : {
+                if (!paused) {
                     moveDown();
                 }
                 break;
+            }
 
-            case KeyEvent.VK_UP :
-                if(!paused) {
+            case KeyEvent.VK_SPACE : {
+                if (!paused) {
+                    //IMPLEMENT DROP
+                }
+            }
+
+            case KeyEvent.VK_UP : {
+                if (!paused) {
                     rotateClockWise();
                 }
                 break;
+            }
 
-            case KeyEvent.VK_DOWN :
-                if(!paused) {
+            case KeyEvent.VK_DOWN : {
+                if (!paused) {
                     rotateCounterClockWise();
                 }
                 break;
+            }
 
-            case KeyEvent.VK_ESCAPE :
+            case KeyEvent.VK_ESCAPE : {
                 gui.pauseResume();
                 break;
+            }
         }
     }
 

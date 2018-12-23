@@ -60,7 +60,6 @@ public class GUI {
 
     private void createContent(){
         //INFO AREA
-        JPanel infoArea = new SideInfo(game, HEIGHT);
         createSideInfo();
         contentPane.add(sideInfo, BorderLayout.EAST);
 
