@@ -2,18 +2,19 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 public abstract class Tetrimino {
-    protected int orientation;
+
+    // --------------------- FIELD VARIABLES ---------------------
+    private int orientation;
     private Color color;
     protected ArrayList<GridElement> pieces; //position of the 4 pieces
     protected PlayingField playfield;
     protected GridElement[][] grid;
 
-    //----- BLOCK NUMBERS -----
-    GridElement zero;
-    GridElement one;
-    GridElement two;
-    GridElement three;
-    //----- BLOCK NUMBERS -----
+    //----- PIECE NUMBERS -----
+    protected GridElement zero;
+    protected GridElement one;
+    protected GridElement two;
+    protected GridElement three;
 
     //----- NEW COORDS -----
     protected int zeroy=0;
@@ -27,9 +28,14 @@ public abstract class Tetrimino {
 
     protected int threey=0;
     protected int threex=0;
-    //----- NEW COORDS -----
 
+    // --------------------- CONSTRUCTOR ---------------------
 
+    /**
+     * Sets the generic values for a tetrimino
+     * @param c Color of the tetrimino
+     * @param p The playingfield on which the tetrimino will be played.
+     */
     public Tetrimino(Color c, PlayingField p){
         orientation = 0;
         color = c;
@@ -38,6 +44,12 @@ public abstract class Tetrimino {
         grid = p.getGrid();
     }
 
+    // --------------------- MOVEMENT LOGIC ---------------------
+
+    /**
+     * Calls the overwritten method in the sub-classes, and then they set the NEW COORDS field variables to the right values.
+     * The value of these field variables are then applied if possible, that is, if they are legal positions in the current playinfield.
+     */
     public void rotateClockwise(){
         switch (orientation){
             case 0 : rotateClockwiseCase0(); break;
@@ -64,14 +76,14 @@ public abstract class Tetrimino {
 
     /**
      * This method uses the fact that there is a connection between the rotations and orientations of the cw and ccw rotations
-     * Rotation Pairs:
+     * Rotation Pairs (the number indicates the current orientation of the tetrimino) :
      * cw	ccw
      * 0	3
      * 1	0
      * 2	1
      * 3	2
-     * Those rotation methods do, computationally, the same, therefore ccw just calls the cw rotations
-     * with those specific orientations / cases.
+     * These rotation methods do, computationally, the same, therefore ccw just calls the cw rotations
+     * in those specific orientations / cases.
      */
     public void rotateCounterClockwise(){
         switch (orientation){
@@ -95,44 +107,6 @@ public abstract class Tetrimino {
         System.out.println("now in orientation: " + orientation);
         System.out.println();
     }
-
-    protected abstract void rotateClockwiseCase0();
-    protected abstract void rotateClockwiseCase1();
-    protected abstract void rotateClockwiseCase2();
-    protected abstract void rotateClockwiseCase3();
-
-
-    protected boolean applyNewCoords(){
-        if(isLegal(zeroy, zerox, oney, onex,twoy, twox, threey, threex)) {
-            zero.setY(zeroy);
-            zero.setX(zerox);
-
-            one.setY(oney);
-            one.setX(onex);
-
-            two.setY(twoy);
-            two.setX(twox);
-
-            three.setY(threey);
-            three.setX(threex);
-            return true;
-        }
-        return false;
-    }
-
-    protected boolean isLegal(int zeroy, int zerox,int oney, int onex,int twoy, int twox,int threey, int threex){
-        if(zerox < 0 || zerox > 9 || onex < 0 || onex > 9 || twox < 0 || twox > 9 || threex < 0 || threex > 9){
-            return false;
-        } else if(zeroy < 0 || oney < 0 || twoy < 0 || threey < 0) {
-            return false;
-        } else if (grid[zeroy][zerox].isOccupied() || grid[oney][onex].isOccupied() || grid[twoy][twox].isOccupied() || grid[threey][threex].isOccupied()) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-//    public abstract void calculateBottomPieces();
 
     /**
      * Moves the tetrimino one unit to the left
@@ -190,6 +164,69 @@ public abstract class Tetrimino {
     }
 
 
+    // --------------------- METHODS TO BE OVERRIDDEN ---------------------
+    protected abstract void rotateClockwiseCase0();
+    protected abstract void rotateClockwiseCase1();
+    protected abstract void rotateClockwiseCase2();
+    protected abstract void rotateClockwiseCase3();
+
+    // --------------------- HELPER METHODS FOR THE GAME LOGIC ---------------------
+
+    /**
+     * Applies the new coordinates if they are legal.
+     * @return
+     */
+    private boolean applyNewCoords(){
+        if(isLegal(zeroy, zerox, oney, onex,twoy, twox, threey, threex)) {
+            zero.setY(zeroy);
+            zero.setX(zerox);
+
+            one.setY(oney);
+            one.setX(onex);
+
+            two.setY(twoy);
+            two.setX(twox);
+
+            three.setY(threey);
+            three.setX(threex);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Tests if the specified coordinates are legal, ie. not occupied.
+     * @param zeroy y-coordinate of the 0th piece
+     * @param zerox x-coordinate of the 0th piece
+     *
+     * @param oney y-coordinate of the 1st piece
+     * @param onex x-coordinate of the 1st piece
+     *
+     * @param twoy y-coordinate of the 2nd piece
+     * @param twox x-coordinate of the 2nd piece
+     *
+     * @param threey y-coordinate of the 3rd piece
+     * @param threex x-coordinate of the 3rd piece
+     *
+     * @return a boolean value telling if the coordinates are legal.
+     */
+    private boolean isLegal(int zeroy, int zerox,int oney, int onex,int twoy, int twox,int threey, int threex){
+        if(zerox < 0 || zerox > 9 || onex < 0 || onex > 9 || twox < 0 || twox > 9 || threex < 0 || threex > 9){
+            return false;
+        } else if(zeroy < 0 || oney < 0 || twoy < 0 || threey < 0) {
+            return false;
+        } else if (grid[zeroy][zerox].isOccupied() || grid[oney][onex].isOccupied() || grid[twoy][twox].isOccupied() || grid[threey][threex].isOccupied()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    // --------------------- GETTERS ---------------------
+
+    /**
+     * @return The pieces making up the tetrimino
+     */
     public ArrayList<GridElement> getPieces() {
         return pieces;
     }
