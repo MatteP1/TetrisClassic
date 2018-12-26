@@ -67,7 +67,7 @@ public class GUI {
         //------ OPTIONS AREA ------
         JPanel optionsArea = new JPanel();
         optionsArea.setLayout(new BorderLayout());
-        optionsArea.setBackground(Color.DARK_GRAY);
+        optionsArea.setBackground(Color.DARK_GRAY.darker());
 
         // ------Label------
         optionsLabel = new JLabel("Options",SwingConstants.CENTER);
@@ -121,7 +121,7 @@ public class GUI {
         gameArea.setBackground(Color.BLACK);
         gameArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         gameArea.setLayout(new GridLayout(20,10));
-        tiles = newEmptyGrid(19,9, Color.GRAY);
+        tiles = newEmptyGrid(19,9, Color.GRAY.darker());
 
         for (int i = 19; i >= 0; i--) {
             for (int j = 0; j <= 9; j++) {
@@ -236,7 +236,7 @@ public class GUI {
         //Display ghost pieces of current tetrimino
         for(GridElement g : playfield.calculateGhost()){
             if(g.y() < 20) {
-                tiles[g.y()][g.x()].setBackground(Color.GRAY.darker());
+                tiles[g.y()][g.x()].setBackground(Color.DARK_GRAY);
             }
         }
 
@@ -288,7 +288,7 @@ public class GUI {
         savedTetrimino.setBorder(BorderFactory.createLineBorder(themeColor));
         stats.setForeground(themeColor);
         controls.setForeground(themeColor);
-        
+
     }
 
 

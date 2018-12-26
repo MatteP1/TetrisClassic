@@ -18,7 +18,7 @@ public class PlayingField {
     public void clearGrid(){
         for (int i = 0; i <= 39; i++) {
             for (int j = 0; j <= 9; j++) {
-                Grid[i][j] = new GridElement(i, j, Color.GRAY, false);
+                Grid[i][j] = new GridElement(i, j, Color.GRAY.darker(), false);
             }
         }
     }

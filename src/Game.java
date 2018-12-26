@@ -279,7 +279,7 @@ public class Game implements KeyListener {
         if(!successful){
             moveDownTries++;
         }
-        if(moveDownTries > 20){
+        if(moveDownTries > 15){
             computerMoveDown();
         }
         startTimer(period);
