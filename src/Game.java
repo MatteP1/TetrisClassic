@@ -19,6 +19,9 @@ public class Game implements KeyListener {
     private boolean paused;
     private GUI gui;
 
+    /** Helper variable for moveDown method*/
+    private int moveDownTries;
+
     /** The grid that the current tetrimino has to be placed in*/
     private PlayingField playfield;
 
@@ -31,11 +34,8 @@ public class Game implements KeyListener {
     /** Variable telling if the swap feature has been used this round ("round" being the fall of the current Tetrimino) */
     private boolean changedCurrentTetriminoThisRound;
 
-    /** Defines the delay before the game ticks again after the time has been stopped*/
-    private static final int delay = 500;
-
     /** Defines the amount of time that passes between each ingame timetick*/
-    private static final int period = 1000*1;
+    private int period;
 
 
     // --------------------- MAIN METHOD ---------------------
@@ -51,7 +51,7 @@ public class Game implements KeyListener {
     private Game() {
         timePassed = 0;
         score = 0;
-        time = new Timer();
+        period = 1000*1;
         playfield = new PlayingField(this);
         random = new Random();
         this.game = this;
@@ -64,7 +64,7 @@ public class Game implements KeyListener {
     private void startGame(){
         paused = false;
         nextPiece();
-        startTimer(delay, period);
+        startTimer(period);
     }
 
     /**
@@ -76,7 +76,6 @@ public class Game implements KeyListener {
         score = 0;
         savedTetrimino = null;
         playfield.clearGrid();
-        time = new Timer();
         startGame();
         paused = false;
         gui.updatePlayfield();
@@ -94,8 +93,7 @@ public class Game implements KeyListener {
      * Creates a new timer and starts it.
      */
     private void resumeGame(){
-        time = new Timer();
-        startTimer(delay, period);
+        startTimer(period);
         paused = false;
     }
 
@@ -113,11 +111,11 @@ public class Game implements KeyListener {
     /**
      * Creates a new timer, and schedules it to run with a given delay and period
      *
-     * @param delay The time it takes before it executes the first run method
      * @param period The time that goes between the execution of each run
      */
-    public void startTimer(int delay, int period){
+    public void startTimer(int period){
         paused = false;
+        time = new Timer();
         time.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -128,7 +126,7 @@ public class Game implements KeyListener {
                 }
                 System.out.println();
             }
-        }, delay, period);
+        }, period, period);
     }
 
     /**
@@ -159,6 +157,7 @@ public class Game implements KeyListener {
             default: nextTetrimino = new I(playfield);
         }
         currentTetrimino = nextTetrimino;
+        moveDownTries = 0; // The amount of times the player has tried to move it down unsuccessfully
         playfield.setCurrentTetrimino(currentTetrimino);
     }
 
@@ -221,6 +220,8 @@ public class Game implements KeyListener {
         boolean successful = currentTetrimino.moveDown();
         if(!successful){
             insertIntoGrid();
+        } else {
+            moveDownTries = 0;
         }
         gui.updatePlayfield();
     }
@@ -263,7 +264,7 @@ public class Game implements KeyListener {
      */
     private void drop(){
         for(int i = 0; i < 20; i++){
-            moveDown();
+            currentTetrimino.moveDown();
         }
         insertIntoGrid();
         gui.updatePlayfield();
@@ -273,7 +274,15 @@ public class Game implements KeyListener {
      * Move down the current tetrimino 1 gridelement
      */
     private void moveDown(){
-        currentTetrimino.moveDown();
+        time.cancel();
+        boolean successful = currentTetrimino.moveDown();
+        if(!successful){
+            moveDownTries++;
+        }
+        if(moveDownTries > 20){
+            computerMoveDown();
+        }
+        startTimer(period);
         gui.updatePlayfield();
     }
 
@@ -382,7 +391,7 @@ public class Game implements KeyListener {
         //Won't be implemented
     }
 
-    // --------------------- METAINFO HANDLER ---------------------
+    // --------------------- SETTERS HANDLER ---------------------
 
     /**
      * Increases the current score with the specified value
@@ -392,8 +401,7 @@ public class Game implements KeyListener {
         score += amount;
     }
 
-
-    // --------------------- GEETTERS ---------------------
+    // --------------------- GETTERS ---------------------
 
     public Random getRandom(){
         return random;

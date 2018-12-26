@@ -8,18 +8,16 @@ public class GUI {
     // --------------------- FIELD VARIABLES ---------------------
     private JFrame mainFrame;
     private Container contentPane;
-    private JPanel gameArea;
+    private JPanel gameArea, sideInfo, savedTetrimino;
     private PlayingField playfield;
     private GridElement[][] Grid;
     private Game game;
     private boolean paused = false;
-    private JButton pauseResumeButton;
+    private JButton pauseResumeButton, newGame, themeButton, exitButton;
     private static final int WIDTH = 600, HEIGHT = 800;
     private JPanel[][] tiles, savedTiles;
-    private JPanel sideInfo;
-    private JLabel stats;
-    private JPanel savedTetrimino;
-    private Color themeColor = Color.GREEN;
+    private JLabel stats, optionsLabel, savedTetriminoLabel, controls;
+    private Color themeColor;
 
 
     // ------------------------------------------ GUI CREATION ------------------------------------------
@@ -32,6 +30,7 @@ public class GUI {
         this.game = game;
         this.playfield = playfield;
         Grid = playfield.getGrid();
+        themeColor = Color.GREEN;
         createGUI();
         mainFrame.addKeyListener(game);
     }
@@ -60,18 +59,18 @@ public class GUI {
         createSideInfo();
         contentPane.add(sideInfo, BorderLayout.EAST);
 
-        //GAME AREA
+        //------ GAME AREA ------
         gameArea = createGameArea();
 
         contentPane.add(gameArea, BorderLayout.CENTER);
 
-        //OPTIONS AREA
+        //------ OPTIONS AREA ------
         JPanel optionsArea = new JPanel();
         optionsArea.setLayout(new BorderLayout());
         optionsArea.setBackground(Color.DARK_GRAY);
 
         // ------Label------
-        JLabel optionsLabel = new JLabel("Options",SwingConstants.CENTER);
+        optionsLabel = new JLabel("Options",SwingConstants.CENTER);
         optionsLabel.setForeground(themeColor);
         optionsArea.add(optionsLabel,BorderLayout.NORTH);
 
@@ -86,7 +85,7 @@ public class GUI {
         pauseResumeButton.setForeground(themeColor);
         settings.add(pauseResumeButton);
 
-        JButton newGame = new JButton("New Game");
+        newGame = new JButton("New Game");
         newGame.addActionListener(e -> {
             game.newGame();
             mainFrame.requestFocusInWindow();
@@ -95,16 +94,16 @@ public class GUI {
         newGame.setForeground(themeColor);
         settings.add(newGame);
 
-        JButton settingsButton = new JButton("Settings");
-        settingsButton.addActionListener(e -> {
-            openSettings();
+        themeButton = new JButton("Theme");
+        themeButton.addActionListener(e -> {
+            changeTheme();
             mainFrame.requestFocusInWindow();
         });
-        settingsButton.setBackground(Color.DARK_GRAY);
-        settingsButton.setForeground(themeColor);
-        settings.add(settingsButton);
+        themeButton.setBackground(Color.DARK_GRAY);
+        themeButton.setForeground(themeColor);
+        settings.add(themeButton);
 
-        JButton exitButton = new JButton("Exit Game");
+        exitButton = new JButton("Exit Game");
         exitButton.addActionListener(e -> System.exit(0));
         exitButton.setBackground(Color.DARK_GRAY);
         exitButton.setForeground(themeColor);
@@ -149,7 +148,7 @@ public class GUI {
         savedTetriminoArea.setBackground(Color.BLACK);
 
         String savedPieceString = "<html><h1>Saved piece</h1></html>";
-        JLabel savedTetriminoLabel = new JLabel(savedPieceString, SwingConstants.LEFT);
+        savedTetriminoLabel = new JLabel(savedPieceString, SwingConstants.LEFT);
         savedTetriminoLabel.setForeground(themeColor);
         savedTetriminoArea.add(savedTetriminoLabel, BorderLayout.NORTH);
 
@@ -197,7 +196,7 @@ public class GUI {
                         "</p>" +
                         "</html>";
 
-        JLabel controls = new JLabel(controlsText, SwingConstants.LEFT);
+        controls = new JLabel(controlsText, SwingConstants.LEFT);
         controls.setForeground(themeColor);
         controls.setBorder(new EmptyBorder(50,0,0,0));
 
@@ -268,10 +267,28 @@ public class GUI {
     }
 
     /**
-     * Opens the settings dialog.
+     * Opens a color changer dialog which allows the user to change the theme color.
      */
-    private void openSettings(){
-        //OPEN SETTINGS
+    private void changeTheme(){
+        if(!paused){
+            pauseResume();
+        }
+
+        Color newColor = JColorChooser.showDialog(mainFrame, "Theme Color Chooser", Color.GREEN);
+        if(newColor != null){
+            themeColor = newColor;
+        }
+
+        optionsLabel.setForeground(themeColor);
+        pauseResumeButton.setForeground(themeColor);
+        newGame.setForeground(themeColor);
+        themeButton.setForeground(themeColor);
+        exitButton.setForeground(themeColor);
+        savedTetriminoLabel.setForeground(themeColor);
+        savedTetrimino.setBorder(BorderFactory.createLineBorder(themeColor));
+        stats.setForeground(themeColor);
+        controls.setForeground(themeColor);
+        
     }
 
 
