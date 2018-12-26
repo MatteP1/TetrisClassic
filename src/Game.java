@@ -2,25 +2,52 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
 
+/**
+ * The game class containing most of the game handling logic, as well as keybindings.
+ * The logic handling the movement of the tetriminos is defined in the abstract Tetrimino class and its sub-classes.
+ *
+ *
+ */
 public class Game implements KeyListener {
+
+    // --------------------- FIELD VARIABLES ---------------------
     private Game game;
     private int timePassed;
     private int score;
     private Timer time;
     private Random random;
-    private PlayingField playfield;
-    private Tetrimino currentTetrimino;
-    private Tetrimino savedTetrimino;
     private boolean paused;
     private GUI gui;
+
+    /** The grid that the current tetrimino has to be placed in*/
+    private PlayingField playfield;
+
+    /** Variable containing the current Tetrimino in the playingfield*/
+    private Tetrimino currentTetrimino;
+
+    /** Variable containing the tetrimino available for swapping */
+    private Tetrimino savedTetrimino;
+
+    /** Variable telling if the swap feature has been used this round ("round" being the fall of the current Tetrimino) */
     private boolean changedCurrentTetriminoThisRound;
 
+    /** Defines the delay before the game ticks again after the time has been stopped*/
+    private static final int delay = 500;
+
+    /** Defines the amount of time that passes between each ingame timetick*/
+    private static final int period = 1000*1;
+
+
+    // --------------------- MAIN METHOD ---------------------
     public static void main(String[] args) {
         Game game = new Game();
         game.startGame();
     }
 
-    // --------------------- GAME CREATION AND TIME HANDLING---------------------
+    // --------------------- GAME CREATION AND TIME HANDLING ---------------------
+    /**
+     * Creates a new game object with all stats set to 0 and a new, empty playingfield.
+     */
     private Game() {
         timePassed = 0;
         score = 0;
@@ -32,14 +59,17 @@ public class Game implements KeyListener {
     }
 
     /**
-     * Initializes the game time.
+     * Initializes the game time and requests the first piece
      */
     private void startGame(){
         paused = false;
         nextPiece();
-        startTimer();
+        startTimer(delay, period);
     }
 
+    /**
+     * Resets stats and playfield, and start a new game.
+     */
     public void newGame(){
         stopGame();
         timePassed = 0;
@@ -52,17 +82,26 @@ public class Game implements KeyListener {
         gui.updatePlayfield();
     }
 
+    /**
+     * Stops the time.
+     */
     private void stopGame(){
         time.cancel();
         paused = true;
     }
 
+    /**
+     * Creates a new timer and starts it.
+     */
     private void resumeGame(){
         time = new Timer();
-        startTimer();
+        startTimer(delay, period);
         paused = false;
     }
 
+    /**
+     * If game is running, the method pauses the game. Otherwise, it resumes it.
+     */
     public void pauseResume(){
         if(paused){
             resumeGame();
@@ -71,7 +110,13 @@ public class Game implements KeyListener {
         }
     }
 
-    public void startTimer(){
+    /**
+     * Creates a new timer, and schedules it to run with a given delay and period
+     *
+     * @param delay The time it takes before it executes the first run method
+     * @param period The time that goes between the execution of each run
+     */
+    public void startTimer(int delay, int period){
         paused = false;
         time.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -83,7 +128,7 @@ public class Game implements KeyListener {
                 }
                 System.out.println();
             }
-        }, 500, 1000*1);
+        }, delay, period);
     }
 
     /**
@@ -97,7 +142,7 @@ public class Game implements KeyListener {
     // --------------------- GAME LOGIC ---------------------
 
     /**
-     * Calculates the next piece to moveDown down.
+     * Calculates the next tetrimino to move down.
      */
     public void nextPiece(){
         int nextPiece = game.getRandom().nextInt(7)+1;
@@ -117,6 +162,11 @@ public class Game implements KeyListener {
         playfield.setCurrentTetrimino(currentTetrimino);
     }
 
+    /**
+     * This method is used to support the swap feature.
+     * You can change your current tetrimino with one you have set a side earlier
+     * If you haven't set one aside earlier (first time the method is ever called), you set your piece aside, and the next piece is generated.
+     */
     private void changeCurrentTetrimino(){
         if(!changedCurrentTetriminoThisRound) {
             if (savedTetrimino == null) {
@@ -136,6 +186,13 @@ public class Game implements KeyListener {
         gui.updatePlayfield();
     }
 
+
+    /**
+     * Helper method for the changeCurrentTetrimino method.
+     * It creates a new instance of the piece that the player wants to save. That way the position is resat, so it spawns at the top of the playingfield.
+     * @param t The tetrimino of which a new instance of should be created.
+     * @return The newly created instance.
+     */
     private Tetrimino createNewInstanceOf(Tetrimino t) {
         if(t instanceof I) {
             return new I(playfield);
@@ -158,6 +215,7 @@ public class Game implements KeyListener {
 
     /**
      * Makes the current tetrimino moveDown down 1 row if there is space for it.
+     * If there isn't space for it. Then it needs to be inserted into the playingfield, and a new piece should be created.
      */
     public void computerMoveDown(){
         boolean successful = currentTetrimino.moveDown();
@@ -167,6 +225,10 @@ public class Game implements KeyListener {
         gui.updatePlayfield();
     }
 
+    /**
+     * Helper method for the computerMoveDownMethod.
+     * Inserts the current piece into the grid and checks to see if the game is lost.
+     */
     private void insertIntoGrid(){
         playfield.insertCurrentPieceIntoGrid();
 
@@ -196,6 +258,9 @@ public class Game implements KeyListener {
         }
     }
 
+    /**
+     * Method to drop the current piece to the bottom of the playingfield.
+     */
     private void drop(){
         for(int i = 0; i < 20; i++){
             moveDown();
@@ -204,26 +269,41 @@ public class Game implements KeyListener {
         gui.updatePlayfield();
     }
 
+    /**
+     * Move down the current tetrimino 1 gridelement
+     */
     private void moveDown(){
         currentTetrimino.moveDown();
         gui.updatePlayfield();
     }
 
+    /**
+     * Move the tetrimino left
+     */
     private void moveLeft(){
         currentTetrimino.moveLeft();
         gui.updatePlayfield();
     }
 
+    /**
+     * Move the tetrimino right
+     */
     private void moveRight(){
         currentTetrimino.moveRight();
         gui.updatePlayfield();
     }
 
+    /**
+     * Rotate the current tetrimino in the clockwise direction
+     */
     private void rotateClockWise(){
         currentTetrimino.rotateClockwise();
         gui.updatePlayfield();
     }
 
+    /**
+     * Rotate the current tetrimino in the counter-clockwise direction
+     */
     private void rotateCounterClockWise(){
         currentTetrimino.rotateCounterClockwise();
         gui.updatePlayfield();
@@ -303,9 +383,15 @@ public class Game implements KeyListener {
     }
 
     // --------------------- METAINFO HANDLER ---------------------
+
+    /**
+     * Increases the current score with the specified value
+     * @param amount Amount to be added to the score
+     */
     public void increaseScore(int amount){
         score += amount;
     }
+
 
     // --------------------- GEETTERS ---------------------
 
