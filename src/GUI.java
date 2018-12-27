@@ -145,8 +145,35 @@ public class GUI {
         sideInfo = new JPanel();
         sideInfo.setBackground(Color.BLACK);
         sideInfo.setPreferredSize(new Dimension(200, HEIGHT));
-        sideInfo.setLayout(new BorderLayout());
+        sideInfo.setLayout(new FlowLayout());
         sideInfo.setBorder(new EmptyBorder(15,15,15,15));
+
+        // --------------- NEXT PIECE AREA ---------------
+        JPanel nextTetriminoArea = new JPanel();
+        nextTetriminoArea.setLayout(new BorderLayout());
+        nextTetriminoArea.setBackground(Color.BLACK);
+
+        String nextPieceString = "<html><h1>Next piece</h1></html>";
+        nextTetriminoLabel = new JLabel(nextPieceString, SwingConstants.LEFT);
+        nextTetriminoLabel.setForeground(themeColor);
+        nextTetriminoArea.add(nextTetriminoLabel, BorderLayout.NORTH);
+
+        nextTetrimino = new JPanel();
+        nextTetrimino.setBackground(Color.BLACK);
+        nextTetrimino.setLayout(new GridLayout(4,4));
+        nextTetrimino.setPreferredSize(new Dimension(170,170));
+        nextTetrimino.setBorder(BorderFactory.createLineBorder(themeColor));
+
+        nextTiles = newEmptyGrid(3,3, Color.DARK_GRAY.darker());
+        for (int i = 3; i >= 0; i--) {
+            for (int j = 0; j <= 3; j++) {
+                nextTetrimino.add(nextTiles[i][j]);
+            }
+        }
+
+        nextTetriminoArea.add(nextTetrimino, BorderLayout.CENTER);
+
+        sideInfo.add(nextTetriminoArea);
 
 
         // --------------- SAVED PIECE AREA ---------------
@@ -174,7 +201,7 @@ public class GUI {
 
         savedTetriminoArea.add(savedTetrimino, BorderLayout.CENTER);
 
-        sideInfo.add(savedTetriminoArea, BorderLayout.SOUTH);
+        sideInfo.add(savedTetriminoArea);
 
         // ------------------------------ TEXT AREA ------------------------------
         JPanel textArea = new JPanel();
@@ -208,34 +235,8 @@ public class GUI {
         controls.setBorder(new EmptyBorder(50,0,0,0));
 
         textArea.add(controls);
-        sideInfo.add(textArea,BorderLayout.CENTER);
+        sideInfo.add(textArea);
 
-        // --------------- NEXT PIECE AREA ---------------
-        JPanel nextTetriminoArea = new JPanel();
-        nextTetriminoArea.setLayout(new BorderLayout());
-        nextTetriminoArea.setBackground(Color.BLACK);
-
-        String nextPieceString = "<html><h1>Next piece</h1></html>";
-        nextTetriminoLabel = new JLabel(nextPieceString, SwingConstants.LEFT);
-        nextTetriminoLabel.setForeground(themeColor);
-        nextTetriminoArea.add(nextTetriminoLabel, BorderLayout.NORTH);
-
-        nextTetrimino = new JPanel();
-        nextTetrimino.setBackground(Color.BLACK);
-        nextTetrimino.setLayout(new GridLayout(4,4));
-        nextTetrimino.setPreferredSize(new Dimension(170,170));
-        nextTetrimino.setBorder(BorderFactory.createLineBorder(themeColor));
-
-        nextTiles = newEmptyGrid(3,3, Color.DARK_GRAY.darker());
-        for (int i = 3; i >= 0; i--) {
-            for (int j = 0; j <= 3; j++) {
-                nextTetrimino.add(nextTiles[i][j]);
-            }
-        }
-
-        nextTetriminoArea.add(nextTetrimino, BorderLayout.CENTER);
-
-        sideInfo.add(nextTetriminoArea, BorderLayout.NORTH);
     }
 
 
@@ -335,7 +336,6 @@ public class GUI {
         controls.setForeground(themeColor);
         gameArea.setBorder(BorderFactory.createMatteBorder(0,0,0,1, themeColor));
         optionsArea.setBorder(BorderFactory.createMatteBorder(1,0,0,0, themeColor));
-
 
         pauseResume();
     }
