@@ -222,9 +222,9 @@ public class GUI {
                         "<p>" +
                         "Move Left: ←<br> " +
                         "Move Right: →<br>" +
-                        "Move Down: ↑<br>" +
+                        "Move Down: ↓<br>" +
+                        "Rotate Clockwise: ↑<br>" +
                         "Rotate Counterclockwise: Ctrl<br>" +
-                        "Rotate Clockwise: ↓<br>" +
                         "Drop: Space<br>" +
                         "Pause Game: Esc<br>" +
                         "</p>" +
