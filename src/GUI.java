@@ -226,6 +226,7 @@ public class GUI {
                         "Rotate Clockwise: ↑<br>" +
                         "Rotate Counterclockwise: Ctrl<br>" +
                         "Drop: Space<br>" +
+                        "Hold piece: c<br>" +
                         "Pause Game: Esc<br>" +
                         "</p>" +
                         "</html>";
