@@ -277,7 +277,7 @@ public class GUI {
         }
 
         //Display ghost pieces of current tetrimino
-        for(GridElement g : playfield.calculateGhost()){
+        for(GridElement g : playfield.getCurrentTetrimino().calculateGhost()){
             if(g.y() < 20) {
                 tiles[g.y()][g.x()].setBackground(Color.DARK_GRAY);
             }

@@ -275,9 +275,7 @@ public class Game implements KeyListener {
      * Method to drop the current piece to the bottom of the playingfield.
      */
     private void drop(){
-        for(int i = 0; i < 20; i++){
-            currentTetrimino.moveDown();
-        }
+        currentTetrimino.drop();
         insertIntoGrid();
         gui.updatePlayfield();
     }
@@ -291,7 +289,7 @@ public class Game implements KeyListener {
         if(!successful){
             moveDownTries++;
         }
-        if(moveDownTries > 15){
+        if(moveDownTries > 10){
             computerMoveDown();
         }
         startTimer(period);

@@ -7,12 +7,12 @@ import java.awt.Color;
  */
 public class PlayingField {
     private Tetrimino currentTetrimino;
-    private GridElement[][] Grid;
+    private GridElement[][] grid;
     private Game game;
 
 
     public PlayingField(Game game) {
-        Grid = new GridElement[40][10];
+        grid = new GridElement[40][10];
         clearGrid();
         this.game = game;
     }
@@ -23,7 +23,7 @@ public class PlayingField {
     public void clearGrid(){
         for (int i = 0; i <= 39; i++) {
             for (int j = 0; j <= 9; j++) {
-                Grid[i][j] = new GridElement(i, j, Color.GRAY.darker(), false);
+                grid[i][j] = new GridElement(i, j, Color.GRAY.darker(), false);
             }
         }
     }
@@ -32,39 +32,12 @@ public class PlayingField {
         ArrayList<GridElement> pieces = currentTetrimino.getPieces();
         for(GridElement g : pieces){
             g.makeOccupied();
-            Grid[g.y()][g.x()] = g;
+            grid[g.y()][g.x()] = g;
         }
-    }
-
-    /**
-     * calculates the values of the ghost piece, that is the position of the current tetrimino if it is dropped.
-     * returns empty playlist if closestToOccupiedSlot is 0
-     */
-    public ArrayList<GridElement> calculateGhost(){
-        int closestToOccupiedSlot = Integer.MAX_VALUE;
-        for(GridElement g : currentTetrimino.getPieces()){
-            closestToOccupiedSlot = Math.min(g.y(), closestToOccupiedSlot);
-        }
-
-        for(GridElement g : currentTetrimino.getPieces()){
-            for (int i = 1; i <= g.y(); i++) {
-                if (Grid[g.y()-i][g.x()].isOccupied()){
-                    closestToOccupiedSlot = Math.min(i-1, closestToOccupiedSlot);
-                }
-            }
-        }
-
-        ArrayList<GridElement> ghostPieces = new ArrayList<>(4);
-
-        for(GridElement g : currentTetrimino.getPieces()){
-            ghostPieces.add(Grid[g.y()-closestToOccupiedSlot][g.x()]);
-        }
-
-        return ghostPieces;
     }
 
     public boolean calculateLost(){
-        for(GridElement g : Grid[20]){
+        for(GridElement g : grid[20]){
             if(g.isOccupied()){
                 return true;
             }
@@ -97,7 +70,7 @@ public class PlayingField {
             int amountOccupied = 0;
 
             for (int j = 0; j <= 9; j++) {
-                if(Grid[i][j].isOccupied()){
+                if(grid[i][j].isOccupied()){
                     amountOccupied++;
                 }
             }
@@ -115,8 +88,8 @@ public class PlayingField {
     private void removeRow(int rowIndex){
         for (int i = rowIndex; i <= 38; i++) {
             for (int j = 0; j <= 9; j++) {
-                Grid[i][j].setOccupied(Grid[i+1][j].isOccupied());
-                Grid[i][j].setBackground(Grid[i+1][j].getBackground());
+                grid[i][j].setOccupied(grid[i+1][j].isOccupied());
+                grid[i][j].setBackground(grid[i+1][j].getBackground());
             }
         }
     }
@@ -126,7 +99,7 @@ public class PlayingField {
     }
 
     public GridElement[][] getGrid(){
-        return Grid;
+        return grid;
     }
 
     public void setCurrentTetrimino(Tetrimino t){

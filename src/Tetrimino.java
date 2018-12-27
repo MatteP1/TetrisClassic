@@ -151,6 +151,7 @@ public abstract class Tetrimino {
 
     /**
      * Makes the current tetrimino moveDown down 1 row if there is space for it.
+     * @return Boolean expresion telling if the move was successful
      */
     public boolean moveDown() {
         zeroy = zero.y()-1;
@@ -165,6 +166,53 @@ public abstract class Tetrimino {
         threey = three.y()-1;
         threex = three.x();
         return applyNewCoords();
+    }
+
+
+    public void drop(){
+        ArrayList<GridElement> newPieces = calculateGhost();
+
+        zeroy = newPieces.get(0).y();
+        zerox = newPieces.get(0).x();
+
+        oney = newPieces.get(1).y();
+        onex = newPieces.get(1).x();
+
+        twoy = newPieces.get(2).y();
+        twox = newPieces.get(2).x();
+
+        threey = newPieces.get(3).y();
+        threex = newPieces.get(3).x();
+
+        applyNewCoords();
+
+    }
+
+    /**
+     * calculates the values of the ghost piece, that is, the position of the current tetrimino if it is dropped.
+     * returns empty playlist if closestToOccupiedSlot is 0
+     */
+    public ArrayList<GridElement> calculateGhost(){
+        int closestToOccupiedSlot = Integer.MAX_VALUE;
+        for(GridElement g : pieces){
+            closestToOccupiedSlot = Math.min(g.y(), closestToOccupiedSlot);
+        }
+
+        for(GridElement g : pieces){
+            for (int i = 1; i <= g.y(); i++) {
+                if (grid[g.y()-i][g.x()].isOccupied()){
+                    closestToOccupiedSlot = Math.min(i-1, closestToOccupiedSlot);
+                }
+            }
+        }
+
+        ArrayList<GridElement> ghostPieces = new ArrayList<>(4);
+
+        for(GridElement g : pieces){
+            ghostPieces.add(grid[g.y()-closestToOccupiedSlot][g.x()]);
+        }
+
+        return ghostPieces;
     }
 
 
