@@ -215,7 +215,6 @@ public class GUI {
         textArea.add(stats);
 
         // --------------- CONTROLS AREA ---------------
-
         String controlsText =
                 "<html>" +
                         "<h1>Controls</h1> " +
