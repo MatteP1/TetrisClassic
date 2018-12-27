@@ -3,20 +3,25 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * GUI class handling all the graphical components
+ *
+ * @author MatRusTy
+ */
 public class GUI {
 
     // --------------------- FIELD VARIABLES ---------------------
     private JFrame mainFrame;
     private Container contentPane;
-    private JPanel gameArea, sideInfo, savedTetrimino;
+    private JPanel gameArea, sideInfo,savedTetrimino, nextTetrimino, optionsArea;
     private PlayingField playfield;
     private GridElement[][] Grid;
     private Game game;
     private boolean paused = false;
     private JButton pauseResumeButton, newGame, themeButton, exitButton;
-    private static final int WIDTH = 600, HEIGHT = 800;
-    private JPanel[][] tiles, savedTiles;
-    private JLabel stats, optionsLabel, savedTetriminoLabel, controls;
+    private static final int WIDTH = 700, HEIGHT = 1000;
+    private JPanel[][] tiles, savedTiles, nextTiles;
+    private JLabel stats, optionsLabel, savedTetriminoLabel, nextTetriminoLabel, controls;
     private Color themeColor;
 
 
@@ -65,9 +70,10 @@ public class GUI {
         contentPane.add(gameArea, BorderLayout.CENTER);
 
         //------ OPTIONS AREA ------
-        JPanel optionsArea = new JPanel();
+        optionsArea = new JPanel();
         optionsArea.setLayout(new BorderLayout());
         optionsArea.setBackground(Color.DARK_GRAY.darker());
+        optionsArea.setBorder(BorderFactory.createMatteBorder(1,0,0,0, themeColor));
 
         // ------Label------
         optionsLabel = new JLabel("Options",SwingConstants.CENTER);
@@ -119,7 +125,7 @@ public class GUI {
     private JPanel createGameArea(){
         gameArea = new JPanel();
         gameArea.setBackground(Color.BLACK);
-        gameArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        gameArea.setBorder(BorderFactory.createMatteBorder(0,0,0,1,themeColor));
         gameArea.setLayout(new GridLayout(20,10));
         tiles = newEmptyGrid(19,9, Color.GRAY.darker());
 
@@ -131,6 +137,7 @@ public class GUI {
         return gameArea;
     }
 
+    @SuppressWarnings("Duplicates")
     /**
      * Creates the side-part of the GUI containing the saved tetrimino, the stats, and the controls.
      */
@@ -167,7 +174,7 @@ public class GUI {
 
         savedTetriminoArea.add(savedTetrimino, BorderLayout.CENTER);
 
-        sideInfo.add(savedTetriminoArea, BorderLayout.NORTH);
+        sideInfo.add(savedTetriminoArea, BorderLayout.SOUTH);
 
         // ------------------------------ TEXT AREA ------------------------------
         JPanel textArea = new JPanel();
@@ -202,6 +209,33 @@ public class GUI {
 
         textArea.add(controls);
         sideInfo.add(textArea,BorderLayout.CENTER);
+
+        // --------------- NEXT PIECE AREA ---------------
+        JPanel nextTetriminoArea = new JPanel();
+        nextTetriminoArea.setLayout(new BorderLayout());
+        nextTetriminoArea.setBackground(Color.BLACK);
+
+        String nextPieceString = "<html><h1>Next piece</h1></html>";
+        nextTetriminoLabel = new JLabel(nextPieceString, SwingConstants.LEFT);
+        nextTetriminoLabel.setForeground(themeColor);
+        nextTetriminoArea.add(nextTetriminoLabel, BorderLayout.NORTH);
+
+        nextTetrimino = new JPanel();
+        nextTetrimino.setBackground(Color.BLACK);
+        nextTetrimino.setLayout(new GridLayout(4,4));
+        nextTetrimino.setPreferredSize(new Dimension(170,170));
+        nextTetrimino.setBorder(BorderFactory.createLineBorder(themeColor));
+
+        nextTiles = newEmptyGrid(3,3, Color.DARK_GRAY.darker());
+        for (int i = 3; i >= 0; i--) {
+            for (int j = 0; j <= 3; j++) {
+                nextTetrimino.add(nextTiles[i][j]);
+            }
+        }
+
+        nextTetriminoArea.add(nextTetrimino, BorderLayout.CENTER);
+
+        sideInfo.add(nextTetriminoArea, BorderLayout.NORTH);
     }
 
 
@@ -219,10 +253,18 @@ public class GUI {
             }
         }
 
-        //Display the saved tetrimino grid
+        //Display the saved and next tetrimino grid
         for (int i = 0; i <= 3; i++) {
             for (int j = 0; j <= 3; j++) {
                 savedTiles[i][j].setBackground(Color.DARK_GRAY.darker());
+                nextTiles[i][j].setBackground(Color.DARK_GRAY.darker());
+            }
+        }
+
+        //Display the next tetrimino
+        if(game.getNextTetrimino() != null) {
+            for (GridElement g : game.getNextTetrimino().getPieces()) {
+                nextTiles[g.y() - 19][g.x() - 3].setBackground(g.getBackground());
             }
         }
 
@@ -256,12 +298,14 @@ public class GUI {
      * Method to pause or resume the game.
      */
     public void pauseResume(){
-        game.pauseResume();
-        paused = game.isPaused();
-        if(paused){
-            pauseResumeButton.setText("Resume");
-        } else {
-            pauseResumeButton.setText("Pause");
+        if(!game.hasLost()){
+            game.pauseResume();
+            paused = game.isPaused();
+            if(paused){
+                pauseResumeButton.setText("Resume");
+            } else {
+                pauseResumeButton.setText("Pause");
+            }
         }
         mainFrame.requestFocusInWindow();
     }
@@ -273,7 +317,6 @@ public class GUI {
         if(!paused){
             pauseResume();
         }
-
         Color newColor = JColorChooser.showDialog(mainFrame, "Theme Color Chooser", Color.GREEN);
         if(newColor != null){
             themeColor = newColor;
@@ -285,10 +328,16 @@ public class GUI {
         themeButton.setForeground(themeColor);
         exitButton.setForeground(themeColor);
         savedTetriminoLabel.setForeground(themeColor);
+        nextTetriminoLabel.setForeground(themeColor);
         savedTetrimino.setBorder(BorderFactory.createLineBorder(themeColor));
+        nextTetrimino.setBorder(BorderFactory.createLineBorder(themeColor));
         stats.setForeground(themeColor);
         controls.setForeground(themeColor);
+        gameArea.setBorder(BorderFactory.createMatteBorder(0,0,0,1, themeColor));
+        optionsArea.setBorder(BorderFactory.createMatteBorder(1,0,0,0, themeColor));
 
+
+        pauseResume();
     }
 
 

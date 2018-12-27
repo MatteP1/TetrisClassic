@@ -6,7 +6,7 @@ import java.util.*;
  * The game class containing most of the game handling logic, as well as keybindings.
  * The logic handling the movement of the tetriminos is defined in the abstract Tetrimino class and its sub-classes.
  *
- *
+ * @author MatRusTy
  */
 public class Game implements KeyListener {
 
@@ -18,12 +18,15 @@ public class Game implements KeyListener {
     private Random random;
     private boolean paused;
     private GUI gui;
+    private boolean lost;
 
     /** Helper variable for moveDown method*/
     private int moveDownTries;
 
     /** The grid that the current tetrimino has to be placed in*/
     private PlayingField playfield;
+
+    private Tetrimino nextTetrimino;
 
     /** Variable containing the current Tetrimino in the playingfield*/
     private Tetrimino currentTetrimino;
@@ -63,6 +66,8 @@ public class Game implements KeyListener {
      */
     private void startGame(){
         paused = false;
+        lost = false;
+        nextTetrimino = generateRandomPiece();
         nextPiece();
         startTimer(period);
     }
@@ -74,6 +79,7 @@ public class Game implements KeyListener {
         stopGame();
         timePassed = 0;
         score = 0;
+        lost = false;
         savedTetrimino = null;
         playfield.clearGrid();
         startGame();
@@ -143,6 +149,13 @@ public class Game implements KeyListener {
      * Calculates the next tetrimino to move down.
      */
     public void nextPiece(){
+        currentTetrimino = nextTetrimino;
+        nextTetrimino = generateRandomPiece();
+        moveDownTries = 0; // The amount of times the player has tried to move it down unsuccessfully
+        playfield.setCurrentTetrimino(currentTetrimino);
+    }
+
+    private Tetrimino generateRandomPiece(){
         int nextPiece = game.getRandom().nextInt(7)+1;
         Tetrimino nextTetrimino;
         switch (nextPiece){
@@ -156,9 +169,7 @@ public class Game implements KeyListener {
 
             default: nextTetrimino = new I(playfield);
         }
-        currentTetrimino = nextTetrimino;
-        moveDownTries = 0; // The amount of times the player has tried to move it down unsuccessfully
-        playfield.setCurrentTetrimino(currentTetrimino);
+        return nextTetrimino;
     }
 
     /**
@@ -252,6 +263,7 @@ public class Game implements KeyListener {
             System.out.println();
 
         } else {
+            this.lost = true;
             game.stopGame();
             System.out.println("Game Over!");
             gui.gameLostScreen();
@@ -406,11 +418,9 @@ public class Game implements KeyListener {
     public Random getRandom(){
         return random;
     }
-
     public int getTimePassed(){
         return timePassed;
     }
-
     public int getScore(){
         return score;
     }
@@ -420,5 +430,10 @@ public class Game implements KeyListener {
     public Tetrimino getSavedTetrimino(){
         return savedTetrimino;
     }
-
+    public Tetrimino getNextTetrimino(){
+        return nextTetrimino;
+    }
+    public boolean hasLost(){
+        return lost;
+    }
 }

@@ -1,5 +1,9 @@
 import java.awt.Color;
 
+/**
+ * Class representing the Z-piece
+ * @author MatRusTy
+ */
 public class Z extends Tetrimino{
 
     public Z(PlayingField p){

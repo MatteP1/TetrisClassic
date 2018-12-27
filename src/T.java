@@ -1,5 +1,9 @@
 import java.awt.Color;
 
+/**
+ * Class representing the T-piece
+ * @author MatRusTy
+ */
 public class T extends Tetrimino{
 
     public T(PlayingField p){

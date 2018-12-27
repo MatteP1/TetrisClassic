@@ -3,6 +3,7 @@ import javax.swing.*;
 
 /**
  * Represents an element in the playingFieldGrid
+ * @author MatRusTy
  */
 public class GridElement extends JPanel{
 

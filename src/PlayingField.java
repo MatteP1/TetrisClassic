@@ -1,5 +1,10 @@
 import java.util.*;
 import java.awt.Color;
+
+/**
+ * Class representing the playingfield.
+ * @author MatRusTy
+ */
 public class PlayingField {
     private Tetrimino currentTetrimino;
     private GridElement[][] Grid;
