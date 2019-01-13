@@ -3,6 +3,7 @@ import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileSystemView;
 
 /**
  * GUI class handling all the graphical components
@@ -357,10 +358,14 @@ public class GUI {
 
     // ------------------------------------------ HELPER METHODS ------------------------------------------
 
-
+    /**
+     * Saves the given theme color in the config file
+     * @param c - The color to be saved
+     */
     private void saveThemeColor(Color c){
         try{
-            FileWriter writer = new FileWriter("config.cfg");
+            String path = FileSystemView.getFileSystemView().getDefaultDirectory().getPath();
+            FileWriter writer = new FileWriter(path + "\\TetrisConfig.cfg");
             writer.write(Integer.toString(c.getRGB()));
             writer.close();
         } catch (IOException e){
@@ -369,24 +374,29 @@ public class GUI {
         }
     }
 
+    /**
+     * Finds the saved theme color saved in the config file, and returns it
+     * @return The saved theme color
+     */
     private Color getThemeColor(){
-        String color = "";
+        String color = null;
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("config.cfg"));
+            String path = FileSystemView.getFileSystemView().getDefaultDirectory().getPath();
+            BufferedReader reader = new BufferedReader(new FileReader(path + "\\TetrisConfig.cfg"));
             color = reader.readLine();
             reader.close();
-        }catch (FileNotFoundException e){
-            System.err.println("File wasn't found!");
-            e.printStackTrace();
+        } catch (FileNotFoundException e){
+            System.err.println("File wasn't found, creating new file and defaulting to green!");
+            saveThemeColor(Color.GREEN);
 
         } catch (IOException e){
             System.err.println("Something went wrong!");
             e.printStackTrace();
+            saveThemeColor(Color.GREEN);
         }
 
         if(color == null || color.isEmpty()){
             color = Integer.toString(Color.GREEN.getRGB());
-            saveThemeColor(Color.GREEN);
         }
         return new Color(Integer.parseInt(color));
     }

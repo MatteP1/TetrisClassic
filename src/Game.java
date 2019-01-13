@@ -1,7 +1,6 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
-import java.awt.Color;
 
 /**
  * The game class containing most of the game handling logic, as well as keybindings.
