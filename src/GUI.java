@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -35,7 +36,7 @@ public class GUI {
         this.game = game;
         this.playfield = playfield;
         Grid = playfield.getGrid();
-        themeColor = Color.GREEN;
+        themeColor = getThemeColor();
         createGUI();
         mainFrame.addKeyListener(game);
     }
@@ -236,7 +237,6 @@ public class GUI {
 
         textArea.add(controls);
         sideInfo.add(textArea);
-
     }
 
 
@@ -337,6 +337,8 @@ public class GUI {
         gameArea.setBorder(BorderFactory.createMatteBorder(0,0,0,1, themeColor));
         optionsArea.setBorder(BorderFactory.createMatteBorder(1,0,0,0, themeColor));
 
+        saveThemeColor(themeColor);
+
         pauseResume();
     }
 
@@ -354,6 +356,41 @@ public class GUI {
     }
 
     // ------------------------------------------ HELPER METHODS ------------------------------------------
+
+
+    private void saveThemeColor(Color c){
+        try{
+            FileWriter writer = new FileWriter("config.cfg");
+            writer.write(Integer.toString(c.getRGB()));
+            writer.close();
+        } catch (IOException e){
+            System.err.println("Something went wrong!");
+            e.printStackTrace();
+        }
+    }
+
+    private Color getThemeColor(){
+        String color = "";
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("config.cfg"));
+            color = reader.readLine();
+            reader.close();
+        }catch (FileNotFoundException e){
+            System.err.println("File wasn't found!");
+            e.printStackTrace();
+
+        } catch (IOException e){
+            System.err.println("Something went wrong!");
+            e.printStackTrace();
+        }
+
+        if(color == null || color.isEmpty()){
+            color = Integer.toString(Color.GREEN.getRGB());
+            saveThemeColor(Color.GREEN);
+        }
+        return new Color(Integer.parseInt(color));
+    }
+
 
     /**
      * Helper method to create the stats text in the side area.
