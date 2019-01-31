@@ -9,3 +9,6 @@ https://github.com/MatRusTy/Tetris/releases
 
 # Uninstall
 Simply delete the tetris.jar file, and navigate to your documents folder and delete TetrisConfig.cfg
+
+# Known bugs
+The game becomes weird when you play it on a <60hz monitor. Thank you Swing...
