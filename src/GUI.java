@@ -1,6 +1,6 @@
 import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileSystemView;
@@ -25,6 +25,8 @@ public class GUI {
     private JPanel[][] tiles, savedTiles, nextTiles;
     private JLabel stats, optionsLabel, savedTetriminoLabel, nextTetriminoLabel, controls;
     private Color themeColor;
+    private java.util.Timer time;
+    private int timePlayed;
 
 
     // ------------------------------------------ GUI CREATION ------------------------------------------
@@ -38,7 +40,16 @@ public class GUI {
         this.playfield = playfield;
         Grid = playfield.getGrid();
         themeColor = getThemeColor();
+        timePlayed = 0;
         createGUI();
+        time = new java.util.Timer();
+        time.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                timePlayed++;
+            }
+        }, 1000, 1000);
+
         mainFrame.addKeyListener(game);
     }
 
@@ -95,6 +106,7 @@ public class GUI {
 
         newGame = new JButton("New Game");
         newGame.addActionListener(e -> {
+            timePlayed = 0;
             game.newGame();
             mainFrame.requestFocusInWindow();
         });
@@ -410,7 +422,7 @@ public class GUI {
         return "<html>" +
                 "<h1>Stats</h1> " +
                 "<p>" +
-                "Time : " + game.getTimePassed() +"<br> " +
+                "Time : " + timePlayed +"<br> " +
                 "Score : " + game.getScore() +"<br>" +
                 "</p>" +
                 "</html>";
