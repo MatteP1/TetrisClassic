@@ -26,7 +26,7 @@ public class GUI {
     private JLabel stats, optionsLabel, savedTetriminoLabel, nextTetriminoLabel, controls;
     private Color themeColor;
     private java.util.Timer time;
-    private int timePlayed;
+    private int timePlayed, timePlayedAtPause;
 
 
     // ------------------------------------------ GUI CREATION ------------------------------------------
@@ -65,6 +65,7 @@ public class GUI {
         contentPane = mainFrame.getContentPane();
         contentPane.setLayout(new BorderLayout());
         createContent();
+        mainFrame.setLocationRelativeTo(null);
         mainFrame.setFocusable(true);
         mainFrame.setVisible(true);
     }
@@ -316,11 +317,20 @@ public class GUI {
             game.pauseResume();
             paused = game.isPaused();
             if(paused){
+                time.cancel();
                 pauseResumeButton.setText("Resume");
             } else {
+                time = new java.util.Timer();
+                time.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        timePlayed++;
+                    }
+                }, 1000, 1000);
                 pauseResumeButton.setText("Pause");
             }
         }
+        updatePlayfield();
         mainFrame.requestFocusInWindow();
     }
 
