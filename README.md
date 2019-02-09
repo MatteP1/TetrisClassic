@@ -11,4 +11,4 @@ https://github.com/MatRusTy/Tetris/releases
 Simply delete the tetris.jar file, and navigate to your documents folder and delete TetrisConfig.cfg
 
 # Known bugs
-- The game becomes weird when you play it on a <60hz monitor. Thank you Swing...
+- If your monitor supports G-SYNC, and you have ticked 'Enable for windowed and full mode', the game will run painfully slow, just like any other Java application with G-SYNC enabled. To fix it, simply turn off G-SYNC and restart the game.
