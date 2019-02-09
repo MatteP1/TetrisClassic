@@ -12,4 +12,3 @@ Simply delete the tetris.jar file, and navigate to your documents folder and del
 
 # Known bugs
 - The game becomes weird when you play it on a <60hz monitor. Thank you Swing...
-- The 'time' stat doesn't actually tell the time played, but rather the amount of times the game has made the tetrimino fall
