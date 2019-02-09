@@ -6,6 +6,7 @@
 .idea
 *.iml
 out
+META-INF
 gen### Java template
 # Compiled class file
 *.class
