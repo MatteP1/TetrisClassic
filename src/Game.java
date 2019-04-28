@@ -196,7 +196,6 @@ public class Game implements KeyListener {
         gui.updatePlayfield();
     }
 
-
     /**
      * Helper method for the changeCurrentTetrimino method.
      * It creates a new instance of the piece that the player wants to save. That way the position is resat, so it spawns at the top of the playingfield.
@@ -328,7 +327,6 @@ public class Game implements KeyListener {
         gui.updatePlayfield();
     }
 
-
     // --------------------- GAME INPUT ---------------------
 
     @Override
@@ -338,60 +336,41 @@ public class Game implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
         switch(e.getKeyCode()) {
-
             case KeyEvent.VK_LEFT : {
-                if (!paused) {
-                    moveLeft();
-                }
+                if (!paused) { moveLeft(); }
                 break;
             }
-
             case KeyEvent.VK_RIGHT : {
-                if (!paused) {
-                    moveRight();
-                }
+                if (!paused) { moveRight(); }
                 break;
             }
-
             case KeyEvent.VK_CONTROL : {
-                if (!paused) {
-                    rotateCounterClockWise();
-                }
+                if (!paused) { rotateCounterClockWise(); }
                 break;
             }
-
-            case KeyEvent.VK_SPACE : {
-                if (!paused) {
-                    drop();
-                }
+            case KeyEvent.VK_SPACE : case KeyEvent.VK_NUMPAD0 : {
+                if (!paused) { drop(); }
+                break;
             }
-
             case KeyEvent.VK_UP : {
-                if (!paused) {
-                    rotateClockWise();
-                }
+                if (!paused) { rotateClockWise(); }
                 break;
             }
-
             case KeyEvent.VK_DOWN : {
-                if (!paused) {
-                    moveDown();
-                }
+                if (!paused) { moveDown(); }
                 break;
             }
-
             case KeyEvent.VK_C : {
-                if(!paused){
-                    changeCurrentTetrimino();
-                }
+                if(!paused){ changeCurrentTetrimino(); }
                 break;
             }
-
-            case KeyEvent.VK_ESCAPE : {
+            case KeyEvent.VK_ESCAPE : case KeyEvent.VK_NUMPAD1 :{
                 gui.pauseResume();
                 break;
+            }
+            case KeyEvent.VK_W : {
+                if(e.isControlDown()) { System.exit(0); }
             }
         }
     }
