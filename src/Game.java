@@ -80,6 +80,7 @@ public class Game implements KeyListener {
         timePassed = 0;
         score = 0;
         lost = false;
+        changedCurrentTetriminoThisRound = false;
         savedTetrimino = null;
         playfield.clearGrid();
         startGame();
